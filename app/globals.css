@@ -1,26 +1,38 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Surfaces */
+  --color-surface-0: #111614;
+  --color-surface-1: #161b19;
+  --color-surface-2: #1c2220;
+  --color-surface-3: #232a28;
+  --color-surface-4: #2d3533;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Accent */
+  --color-accent: #8a9e96;
+  --color-accent-light: #a8bab2;
+  --color-accent-muted: #697d75;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Text */
+  --color-text-primary: #e8ebe9;
+  --color-text-secondary: #9aaba5;
+  --color-text-muted: #5f706a;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Admin (light) */
+  --color-admin-bg: #f6f8f7;
+  --color-admin-card: #ffffff;
+  --color-admin-border: #e8ebe9;
+  --color-admin-success: #4a8a6a;
+  --color-admin-warning: #a06060;
+
+  /* Typography */
+  --font-headline: "Outfit", sans-serif;
+  --font-body: "Satoshi", sans-serif;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
 }
