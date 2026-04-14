@@ -75,6 +75,19 @@ export interface BentoCategory {
   href: string;
 }
 
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  image: string;
+  description: string;
+  badge: string;
+  visible_on_landing: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Setting {
   id: string;
   key: string;

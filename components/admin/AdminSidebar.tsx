@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   SquaresFour,
   Devices,
+  FolderSimple,
   PencilLine,
   FileText,
   GearSix,
@@ -15,6 +16,7 @@ import { createClient } from "@/lib/supabase/client";
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: SquaresFour },
   { href: "/admin/products", label: "Produits", icon: Devices },
+  { href: "/admin/categories", label: "Categories", icon: FolderSimple },
   { href: "/admin/content", label: "Contenu Landing", icon: PencilLine },
   { href: "/admin/pages", label: "Pages", icon: FileText },
   { href: "/admin/settings", label: "Parametres", icon: GearSix },

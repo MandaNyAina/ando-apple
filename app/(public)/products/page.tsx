@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
+import { getLogoUrl, getCategories, getVisibleCategories } from "@/lib/data";
 import { Nav } from "@/components/landing/Nav";
 import { Footer } from "@/components/landing/Footer";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -30,12 +31,18 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     query = query.eq("condition", condition);
   }
 
-  const { data } = await query;
+  const [{ data }, logoUrl, allCategories, visibleCategories] = await Promise.all([
+    query,
+    getLogoUrl(),
+    getCategories(),
+    getVisibleCategories(),
+  ]);
+
   const products = (data as Product[]) ?? [];
 
   return (
     <main className="bg-surface-0 text-text-primary min-h-screen">
-      <Nav />
+      <Nav logoUrl={logoUrl} categories={visibleCategories} />
 
       <section className="pt-28 pb-20 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto space-y-8">
@@ -49,7 +56,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           </div>
 
           <Suspense fallback={null}>
-            <ProductFilters />
+            <ProductFilters categories={allCategories} />
           </Suspense>
 
           {products.length > 0 ? (
@@ -61,7 +68,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           ) : (
             <div className="text-center py-20">
               <p className="text-text-muted text-lg">
-                Aucun produit ne correspond à votre recherche.
+                Aucun produit ne correspond a votre recherche.
               </p>
             </div>
           )}

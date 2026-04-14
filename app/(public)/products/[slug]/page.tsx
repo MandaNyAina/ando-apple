@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getLogoUrl, getVisibleCategories } from "@/lib/data";
 import { Nav } from "@/components/landing/Nav";
 import { Footer } from "@/components/landing/Footer";
 import { ProductGallery } from "@/components/product/ProductGallery";
@@ -42,7 +43,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const supabase = await createClient();
 
-  const [{ data: productData }, { data: settingData }] = await Promise.all([
+  const [{ data: productData }, { data: settingData }, logoUrl, categories] = await Promise.all([
     supabase
       .from("products")
       .select("*")
@@ -53,6 +54,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
       .select("value")
       .eq("key", "whatsapp_number")
       .single(),
+    getLogoUrl(),
+    getVisibleCategories(),
   ]);
 
   if (!productData) {
@@ -64,7 +67,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <main className="bg-surface-0 text-text-primary min-h-screen">
-      <Nav />
+      <Nav logoUrl={logoUrl} categories={categories} />
 
       <section className="pt-28 pb-20 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-12">

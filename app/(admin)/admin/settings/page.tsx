@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { FloppyDisk } from "@phosphor-icons/react";
 import { createClient } from "@/lib/supabase/client";
 import { updateSettings } from "@/lib/actions/settings";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
-const SETTING_KEYS = [
+const TEXT_SETTING_KEYS = [
   { key: "whatsapp_number", label: "Numero WhatsApp", placeholder: "+261 34 00 000 00" },
   { key: "email", label: "Email", placeholder: "contact@asetech.mg" },
   { key: "phone", label: "Telephone", placeholder: "+261 34 00 000 00" },
@@ -16,8 +17,9 @@ const SETTING_KEYS = [
     placeholder: "Produits Apple reconditionnes a Madagascar",
   },
   { key: "currency", label: "Devise", placeholder: "Ar" },
-  { key: "logo_url", label: "URL du logo", placeholder: "https://... ou /logo.jpg" },
 ];
+
+const ALL_KEYS = [...TEXT_SETTING_KEYS.map((s) => s.key), "logo_url"];
 
 export default function AdminSettingsPage() {
   const [values, setValues] = useState<Record<string, string>>({});
@@ -43,7 +45,7 @@ export default function AdminSettingsPage() {
     setSaving(true);
     setSaved(false);
     try {
-      const entries = SETTING_KEYS.map(({ key }) => ({
+      const entries = ALL_KEYS.map((key) => ({
         key,
         value: values[key] || "",
       }));
@@ -66,7 +68,7 @@ export default function AdminSettingsPage() {
     return (
       <div>
         <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
-          Paramètres
+          Parametres
         </h1>
         <p className="mt-1 text-sm text-text-muted">Chargement...</p>
       </div>
@@ -76,15 +78,15 @@ export default function AdminSettingsPage() {
   return (
     <div>
       <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
-        Paramètres
+        Parametres
       </h1>
       <p className="mt-1 text-sm text-text-muted">
-        Configurez les informations générales de votre site
+        Configurez les informations generales de votre site
       </p>
 
       <div className="mt-8 rounded-[14px] border border-admin-border bg-white p-6">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {SETTING_KEYS.map(({ key, label, placeholder }) => (
+          {TEXT_SETTING_KEYS.map(({ key, label, placeholder }) => (
             <div key={key}>
               <label className={labelClass}>{label}</label>
               <input
@@ -99,6 +101,17 @@ export default function AdminSettingsPage() {
           ))}
         </div>
 
+        <div className="mt-6">
+          <label className={labelClass}>Logo du site</label>
+          <ImageUploader
+            images={values.logo_url ? [values.logo_url] : []}
+            onChange={(imgs) =>
+              setValues((prev) => ({ ...prev, logo_url: imgs[0] ?? "" }))
+            }
+            bucket="site-assets"
+          />
+        </div>
+
         <div className="mt-8 flex items-center gap-4">
           <button
             type="button"
@@ -111,7 +124,7 @@ export default function AdminSettingsPage() {
           </button>
           {saved && (
             <span className="text-sm font-medium text-admin-success">
-              Sauvegardé avec succès !
+              Sauvegarde avec succes !
             </span>
           )}
         </div>

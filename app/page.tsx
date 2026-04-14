@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getLogoUrl, getVisibleCategories } from "@/lib/data";
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
 import { Marquee } from "@/components/landing/Marquee";
@@ -123,9 +124,11 @@ async function getFeaturedProduct(supabase: Awaited<ReturnType<typeof createClie
 export default async function Home() {
   const supabase = await createClient();
 
-  const [contentMap, featuredProduct] = await Promise.all([
+  const [contentMap, featuredProduct, logoUrl, categories] = await Promise.all([
     getSiteContent(supabase),
     getFeaturedProduct(supabase),
+    getLogoUrl(),
+    getVisibleCategories(),
   ]);
 
   const heroContent = (contentMap.get("hero") as unknown as HeroContent) ?? DEFAULT_HERO;
@@ -136,12 +139,12 @@ export default async function Home() {
 
   return (
     <main className="bg-surface-0 text-text-primary">
-      <Nav />
+      <Nav logoUrl={logoUrl} categories={categories} />
       <Hero content={heroContent} featuredProduct={featuredProduct} />
       <Marquee />
       <FeaturedProduct content={featuredProductContent} product={featuredProduct} />
       <GalleryStrip images={[]} />
-      <BentoGrid categories={[]} />
+      <BentoGrid categories={categories} />
       <TrustValues content={valuesContent} />
       <Testimonials content={testimonialsContent} />
       <CTASection content={ctaContent} />

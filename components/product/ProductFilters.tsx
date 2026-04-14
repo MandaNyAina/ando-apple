@@ -1,21 +1,21 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import type { Category } from "@/lib/types";
 
-const CATEGORIES = [
-  { value: "", label: "Tous" },
-  { value: "iPhone", label: "iPhone" },
-  { value: "MacBook", label: "MacBook" },
-  { value: "iPad", label: "iPad" },
-  { value: "Watch", label: "Watch" },
-  { value: "AirPods", label: "AirPods" },
-  { value: "Accessories", label: "Accessoires" },
-];
+interface ProductFiltersProps {
+  categories?: Category[];
+}
 
-export function ProductFilters() {
+export function ProductFilters({ categories = [] }: ProductFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get("category") ?? "";
+
+  const filterItems = [
+    { value: "", label: "Tous" },
+    ...categories.map((cat) => ({ value: cat.slug, label: cat.name })),
+  ];
 
   function handleCategory(value: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -29,7 +29,7 @@ export function ProductFilters() {
 
   return (
     <div className="flex flex-wrap gap-2">
-      {CATEGORIES.map((cat) => (
+      {filterItems.map((cat) => (
         <button
           key={cat.value}
           onClick={() => handleCategory(cat.value)}

@@ -4,16 +4,14 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MagnifyingGlass, ShoppingBag } from "@phosphor-icons/react";
 import Link from "next/link";
+import type { Category } from "@/lib/types";
 
-const NAV_LINKS = [
-  { href: "/products", label: "Produits" },
-  { href: "/products?category=iPhone", label: "iPhone" },
-  { href: "/products?category=MacBook", label: "MacBook" },
-  { href: "/products?category=iPad", label: "iPad" },
-  { href: "/products?category=Watch", label: "Watch" },
-];
+interface NavProps {
+  logoUrl?: string;
+  categories?: Category[];
+}
 
-export function Nav() {
+export function Nav({ logoUrl, categories }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -21,6 +19,14 @@ export function Nav() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const navLinks = [
+    { href: "/products", label: "Produits" },
+    ...(categories ?? []).map((cat) => ({
+      href: `/products?category=${cat.slug}`,
+      label: cat.name,
+    })),
+  ];
 
   return (
     <motion.nav
@@ -32,10 +38,14 @@ export function Nav() {
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-3.5 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
-          <img src="/logo.jpg" alt="ASE TECH" className="h-8 w-auto brightness-0 invert" />
+          <img
+            src={logoUrl || "/logo.jpg"}
+            alt="ASE TECH"
+            className="h-8 w-auto brightness-0 invert"
+          />
         </Link>
         <div className="hidden md:flex gap-8">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link key={link.href} href={link.href} className="font-body font-medium text-[13px] text-text-muted hover:text-text-primary transition-colors duration-200">
               {link.label}
             </Link>
