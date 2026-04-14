@@ -69,6 +69,15 @@ export interface CTAContent {
   button_text: string;
 }
 
+export interface GalleryItem {
+  image: string;
+  product_id: string;
+}
+
+export interface GalleryContent {
+  items: GalleryItem[];
+}
+
 export interface BentoCategory {
   title: string;
   image: string;

@@ -16,6 +16,7 @@ import type {
   ValuesContent,
   TestimonialsContent,
   CTAContent,
+  GalleryContent,
   Product,
 } from "@/lib/types";
 
@@ -109,24 +110,24 @@ async function getSiteContent(supabase: Awaited<ReturnType<typeof createClient>>
   return map;
 }
 
-async function getFeaturedProduct(supabase: Awaited<ReturnType<typeof createClient>>) {
+async function getFeaturedProducts(supabase: Awaited<ReturnType<typeof createClient>>) {
   const { data } = await supabase
     .from("products")
     .select("*")
     .eq("featured", true)
     .eq("in_stock", true)
-    .limit(1)
-    .single();
+    .order("created_at", { ascending: false })
+    .limit(2);
 
-  return (data as Product) ?? null;
+  return (data as Product[]) ?? [];
 }
 
 export default async function Home() {
   const supabase = await createClient();
 
-  const [contentMap, featuredProduct, logoUrl, categories] = await Promise.all([
+  const [contentMap, featuredProducts, logoUrl, categories] = await Promise.all([
     getSiteContent(supabase),
-    getFeaturedProduct(supabase),
+    getFeaturedProducts(supabase),
     getLogoUrl(),
     getVisibleCategories(),
   ]);
@@ -137,13 +138,47 @@ export default async function Home() {
   const testimonialsContent = (contentMap.get("testimonials") as unknown as TestimonialsContent) ?? DEFAULT_TESTIMONIALS;
   const ctaContent = (contentMap.get("cta") as unknown as CTAContent) ?? DEFAULT_CTA;
 
+  const heroProduct = featuredProducts[0] ?? null;
+  const secondFeaturedProduct = featuredProducts[1] ?? null;
+
+  // Resolve gallery items with product slugs
+  const galleryRaw = contentMap.get("gallery") as unknown as GalleryContent | undefined;
+  let galleryItems: { image: string; link: string }[] = [];
+  if (galleryRaw?.items && galleryRaw.items.length > 0) {
+    const productIds = galleryRaw.items
+      .map((item) => item.product_id)
+      .filter((id) => id && id.length > 0);
+
+    let slugMap = new Map<string, string>();
+    if (productIds.length > 0) {
+      const { data: linkedProducts } = await supabase
+        .from("products")
+        .select("id, slug")
+        .in("id", productIds);
+      if (linkedProducts) {
+        for (const p of linkedProducts) {
+          slugMap.set(p.id, p.slug);
+        }
+      }
+    }
+
+    galleryItems = galleryRaw.items.map((item) => ({
+      image: item.image,
+      link: item.product_id && slugMap.has(item.product_id)
+        ? `/products/${slugMap.get(item.product_id)}`
+        : "",
+    }));
+  }
+
   return (
     <main className="bg-surface-0 text-text-primary">
       <Nav logoUrl={logoUrl} categories={categories} />
-      <Hero content={heroContent} featuredProduct={featuredProduct} />
+      <Hero content={heroContent} featuredProduct={heroProduct} />
       <Marquee />
-      <FeaturedProduct content={featuredProductContent} product={featuredProduct} />
-      <GalleryStrip images={[]} />
+      {secondFeaturedProduct && (
+        <FeaturedProduct content={featuredProductContent} product={secondFeaturedProduct} />
+      )}
+      <GalleryStrip items={galleryItems} />
       <BentoGrid categories={categories} />
       <TrustValues content={valuesContent} />
       <Testimonials content={testimonialsContent} />

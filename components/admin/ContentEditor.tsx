@@ -10,6 +10,8 @@ import type {
   ValuesContent,
   TestimonialsContent,
   CTAContent,
+  GalleryContent,
+  GalleryItem,
   Product,
   TestimonialItem,
   ValueItem,
@@ -21,6 +23,7 @@ interface ContentEditorProps {
   values: ValuesContent;
   testimonials: TestimonialsContent;
   cta: CTAContent;
+  gallery: GalleryContent;
   products: Product[];
 }
 
@@ -30,6 +33,7 @@ export function ContentEditor({
   values: initialValues,
   testimonials: initialTestimonials,
   cta: initialCta,
+  gallery: initialGallery,
   products,
 }: ContentEditorProps) {
   const [hero, setHero] = useState<HeroContent>(initialHero);
@@ -39,6 +43,7 @@ export function ContentEditor({
   const [testimonials, setTestimonials] =
     useState<TestimonialsContent>(initialTestimonials);
   const [cta, setCta] = useState<CTAContent>(initialCta);
+  const [gallery, setGallery] = useState<GalleryContent>(initialGallery);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -61,6 +66,10 @@ export function ContentEditor({
           testimonials as unknown as Record<string, unknown>
         ),
         updateSiteContent("cta", cta as unknown as Record<string, unknown>),
+        updateSiteContent(
+          "gallery",
+          gallery as unknown as Record<string, unknown>
+        ),
       ]);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
@@ -101,6 +110,28 @@ export function ContentEditor({
     const updated = [...testimonials.items];
     updated[index] = { ...updated[index], [field]: val };
     setTestimonials({ items: updated });
+  };
+
+  const addGalleryItem = () => {
+    setGallery({
+      items: [...gallery.items, { image: "", product_id: "" }],
+    });
+  };
+
+  const removeGalleryItem = (index: number) => {
+    setGallery({
+      items: gallery.items.filter((_, i) => i !== index),
+    });
+  };
+
+  const updateGalleryItem = (
+    index: number,
+    field: keyof GalleryItem,
+    val: string
+  ) => {
+    const updated = [...gallery.items];
+    updated[index] = { ...updated[index], [field]: val };
+    setGallery({ items: updated });
   };
 
   const inputClass =
@@ -359,6 +390,78 @@ export function ContentEditor({
           {testimonials.items.length === 0 && (
             <p className="py-8 text-center text-sm text-text-muted">
               Aucun témoignage. Cliquez sur &quot;Ajouter&quot; pour en créer un.
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Gallery Section */}
+      <div className={cardClass}>
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="font-headline text-lg font-bold text-surface-0">
+            Galerie d&apos;images
+          </h2>
+          <button
+            type="button"
+            onClick={addGalleryItem}
+            className="inline-flex items-center gap-2 rounded-lg bg-admin-success px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-admin-success/90"
+          >
+            <Plus size={16} weight="bold" />
+            Ajouter
+          </button>
+        </div>
+        <div className="space-y-4">
+          {gallery.items.map((item, index) => (
+            <div
+              key={index}
+              className="rounded-lg border border-admin-border bg-admin-bg p-4"
+            >
+              <div className="mb-3 flex items-center justify-between">
+                <p className="text-sm font-semibold text-text-muted">
+                  Image {index + 1}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => removeGalleryItem(index)}
+                  className="rounded-lg p-1.5 text-admin-warning transition-colors hover:bg-admin-warning/10"
+                >
+                  <Trash size={18} weight="bold" />
+                </button>
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className={labelClass}>Image</label>
+                  <ImageUploader
+                    images={item.image ? [item.image] : []}
+                    onChange={(imgs) =>
+                      updateGalleryItem(index, "image", imgs[0] || "")
+                    }
+                    bucket="site-assets"
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Lien produit (optionnel)</label>
+                  <select
+                    className={inputClass}
+                    value={item.product_id}
+                    onChange={(e) =>
+                      updateGalleryItem(index, "product_id", e.target.value)
+                    }
+                  >
+                    <option value="">Aucun lien</option>
+                    {products.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          ))}
+          {gallery.items.length === 0 && (
+            <p className="py-8 text-center text-sm text-text-muted">
+              Aucune image. Cliquez sur &quot;Ajouter&quot; pour en ajouter une.
             </p>
           )}
         </div>

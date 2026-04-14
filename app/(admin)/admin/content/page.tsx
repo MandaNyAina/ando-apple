@@ -6,6 +6,7 @@ import type {
   ValuesContent,
   TestimonialsContent,
   CTAContent,
+  GalleryContent,
 } from "@/lib/types";
 
 const defaultHero: HeroContent = {
@@ -65,6 +66,7 @@ export default async function AdminContentPage() {
     defaultTestimonials
   );
   const cta = getSection<CTAContent>("cta", defaultCta);
+  const gallery = getSection<GalleryContent>("gallery", { items: [] });
 
   return (
     <div>
@@ -82,6 +84,7 @@ export default async function AdminContentPage() {
           values={values}
           testimonials={testimonials}
           cta={cta}
+          gallery={gallery}
           products={products ?? []}
         />
       </div>

@@ -174,7 +174,8 @@ INSERT INTO site_content (section, content) VALUES
 ('featured_product', '{"product_id":"","label":"Nouveau en stock","subtitle":"Titane naturel. Reconditionné grade A+."}'),
 ('values', '{"items":[{"title":"Inspection 90 points","description":"Chaque appareil est démonté, inspecté et testé méthodiquement. Batterie, écran, haut-parleurs, capteurs, connectique — rien n''est ignoré.","icon":"ShieldCheck","image":""},{"title":"Économie circulaire","description":"Chaque appareil reconditionné, c''est moins de matières premières extraites. Nous prolongeons la vie des produits premium.","icon":"Leaf","image":""},{"title":"Garantie 24 mois","description":"Nous assumons notre qualité. Chaque achat est couvert pendant deux ans avec support technique réactif.","icon":"Certificate","image":""}]}'),
 ('testimonials', '{"items":[{"name":"Marie Lefebvre","role":"Designer freelance","rating":5,"comment":"Mon MacBook Pro est identique à un neuf. Impossible de voir la différence."},{"name":"Thomas Ratsimbazafy","role":"Développeur","rating":5,"comment":"Troisième achat chez ASE Tech. L''iPhone 14 Pro est impeccable, batterie à 100%."},{"name":"Nadia Andrianarisoa","role":"Enseignante","rating":5,"comment":"J''ai offert un iPad reconditionné à ma fille. Elle n''a pas cru que ce n''était pas un neuf."},{"name":"Faly Rakotondrabe","role":"Entrepreneur","rating":5,"comment":"Service après-vente réactif et professionnel. Un souci mineur résolu en 48h."}]}'),
-('cta', '{"title":"Votre prochain appareil vous attend.","subtitle":"Qualité certifiée. Prix accessible. Garanti 24 mois.","button_text":"Explorer la collection"}')
+('cta', '{"title":"Votre prochain appareil vous attend.","subtitle":"Qualité certifiée. Prix accessible. Garanti 24 mois.","button_text":"Explorer la collection"}'),
+('gallery', '{"items":[]}')
 ON CONFLICT (section) DO NOTHING;
 
 -- Settings

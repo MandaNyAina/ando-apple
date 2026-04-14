@@ -20,15 +20,6 @@ export async function Footer() {
     // Fallback if pages table doesn't exist yet
   }
 
-  if (footerLinks.length === 0) {
-    footerLinks = [
-      { href: "#", label: "Politique de confidentialité" },
-      { href: "#", label: "CGV" },
-      { href: "#", label: "Garantie" },
-      { href: "#", label: "Contact" },
-    ];
-  }
-
   return (
     <footer className="bg-surface-0 px-6 md:px-12 py-10 border-t border-[rgba(138,158,150,0.04)]">
       <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
