@@ -36,6 +36,64 @@ const DEFAULT_CTA: CTAContent = {
   button_text: "Explorer la boutique",
 };
 
+const DEFAULT_VALUES: ValuesContent = {
+  items: [
+    {
+      title: "Garantie 24 mois",
+      description:
+        "Chaque produit est couvert par une garantie complète de 24 mois. Votre tranquillité d'esprit est notre priorité.",
+      icon: "ShieldCheck",
+      image: "",
+    },
+    {
+      title: "Inspection rigoureuse",
+      description:
+        "90 points de contrôle pour chaque appareil. Nous ne faisons aucun compromis sur la qualité.",
+      icon: "MagnifyingGlass",
+      image: "",
+    },
+    {
+      title: "Prix accessibles",
+      description:
+        "Des produits Apple premium jusqu'à 40% moins chers que le neuf, sans compromis sur la qualité.",
+      icon: "Tag",
+      image: "",
+    },
+  ],
+};
+
+const DEFAULT_TESTIMONIALS: TestimonialsContent = {
+  items: [
+    {
+      name: "Hery Rakoto",
+      role: "Client iPhone",
+      rating: 5,
+      comment:
+        "Mon iPhone reconditionné est comme neuf. Service impeccable et livraison rapide à Antananarivo.",
+    },
+    {
+      name: "Naina Razafy",
+      role: "Cliente MacBook",
+      rating: 5,
+      comment:
+        "Excellent rapport qualité-prix pour mon MacBook Air. Je recommande ASE TECH à tous mes collègues.",
+    },
+    {
+      name: "Tiana Andria",
+      role: "Client iPad",
+      rating: 4,
+      comment:
+        "Très satisfait de mon iPad. La garantie 24 mois est vraiment rassurante.",
+    },
+  ],
+};
+
+const DEFAULT_FEATURED_PRODUCT: FeaturedProductContent = {
+  product_id: "",
+  label: "Produit vedette",
+  subtitle: "Notre sélection du moment, reconditionnée avec soin.",
+};
+
 async function getSiteContent(supabase: Awaited<ReturnType<typeof createClient>>) {
   const { data } = await supabase
     .from("site_content")
@@ -71,9 +129,9 @@ export default async function Home() {
   ]);
 
   const heroContent = (contentMap.get("hero") as unknown as HeroContent) ?? DEFAULT_HERO;
-  const featuredProductContent = contentMap.get("featured_product") as unknown as FeaturedProductContent | undefined;
-  const valuesContent = contentMap.get("values") as unknown as ValuesContent | undefined;
-  const testimonialsContent = contentMap.get("testimonials") as unknown as TestimonialsContent | undefined;
+  const featuredProductContent = (contentMap.get("featured_product") as unknown as FeaturedProductContent) ?? DEFAULT_FEATURED_PRODUCT;
+  const valuesContent = (contentMap.get("values") as unknown as ValuesContent) ?? DEFAULT_VALUES;
+  const testimonialsContent = (contentMap.get("testimonials") as unknown as TestimonialsContent) ?? DEFAULT_TESTIMONIALS;
   const ctaContent = (contentMap.get("cta") as unknown as CTAContent) ?? DEFAULT_CTA;
 
   return (
@@ -81,13 +139,11 @@ export default async function Home() {
       <Nav />
       <Hero content={heroContent} featuredProduct={featuredProduct} />
       <Marquee />
-      {featuredProductContent && (
-        <FeaturedProduct content={featuredProductContent} product={featuredProduct} />
-      )}
+      <FeaturedProduct content={featuredProductContent} product={featuredProduct} />
       <GalleryStrip images={[]} />
       <BentoGrid categories={[]} />
-      {valuesContent && <TrustValues content={valuesContent} />}
-      {testimonialsContent && <Testimonials content={testimonialsContent} />}
+      <TrustValues content={valuesContent} />
+      <Testimonials content={testimonialsContent} />
       <CTASection content={ctaContent} />
       <Footer />
     </main>

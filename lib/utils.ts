@@ -7,12 +7,15 @@ export function generateSlug(name: string): string {
     .replace(/^-|-$/g, "");
 }
 
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("fr-FR", {
+export const DEFAULT_CURRENCY = "Ar";
+
+export function formatPrice(price: number, currency?: string): string {
+  const formatted = new Intl.NumberFormat("fr-FR", {
     style: "decimal",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(price);
+  return currency !== undefined ? `${formatted} ${currency}` : formatted;
 }
 
 export function calculateSavings(

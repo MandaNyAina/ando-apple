@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MagnifyingGlass, ShoppingBag } from "@phosphor-icons/react";
-import Image from "next/image";
 import Link from "next/link";
 
 const NAV_LINKS = [
@@ -33,7 +32,7 @@ export function Nav() {
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-3.5 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.jpg" alt="ASE TECH" width={100} height={32} className="h-8 w-auto brightness-200" />
+          <img src="/logo.jpg" alt="ASE TECH" className="h-8 w-auto brightness-0 invert" />
         </Link>
         <div className="hidden md:flex gap-8">
           {NAV_LINKS.map((link) => (

@@ -6,15 +6,17 @@ import { createClient } from "@/lib/supabase/client";
 import { updateSettings } from "@/lib/actions/settings";
 
 const SETTING_KEYS = [
-  { key: "whatsapp_number", label: "Numéro WhatsApp", placeholder: "+261 34 00 000 00" },
+  { key: "whatsapp_number", label: "Numero WhatsApp", placeholder: "+261 34 00 000 00" },
   { key: "email", label: "Email", placeholder: "contact@asetech.mg" },
-  { key: "phone", label: "Téléphone", placeholder: "+261 34 00 000 00" },
+  { key: "phone", label: "Telephone", placeholder: "+261 34 00 000 00" },
   { key: "site_title", label: "Titre du site", placeholder: "ASE TECH" },
   {
     key: "site_description",
     label: "Description du site",
-    placeholder: "Produits Apple reconditionnés à Madagascar",
+    placeholder: "Produits Apple reconditionnes a Madagascar",
   },
+  { key: "currency", label: "Devise", placeholder: "Ar" },
+  { key: "logo_url", label: "URL du logo", placeholder: "https://... ou /logo.jpg" },
 ];
 
 export default function AdminSettingsPage() {

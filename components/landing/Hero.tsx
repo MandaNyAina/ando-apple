@@ -19,7 +19,21 @@ export function Hero({ content, featuredProduct }: HeroProps) {
 
   return (
     <section className="relative min-h-[100dvh] flex items-center overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center pt-28 pb-16">
+      {/* Background visual treatment */}
+      {content.background_image ? (
+        <div className="absolute inset-0">
+          <Image src={content.background_image} alt="" fill className="object-cover opacity-20" priority />
+          <div className="absolute inset-0 bg-gradient-to-b from-surface-0/80 via-surface-0/60 to-surface-0" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] rounded-full bg-accent/[0.04] blur-[100px]" />
+          <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-accent/[0.03] blur-[80px]" />
+          <div className="absolute top-[30%] left-[20%] w-[300px] h-[300px] rounded-full bg-[rgba(138,158,150,0.03)] blur-[60px]" />
+        </div>
+      )}
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center pt-28 pb-16 relative z-10">
         {/* Left — Text */}
         <motion.div
           className="flex flex-col gap-6"
@@ -50,13 +64,13 @@ export function Hero({ content, featuredProduct }: HeroProps) {
         </motion.div>
 
         {/* Right — Showcase card */}
-        {featuredProduct && (
-          <motion.div
-            className="relative w-full max-w-[380px] mx-auto lg:mx-0"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.2 }}
-          >
+        <motion.div
+          className="relative w-full max-w-[380px] mx-auto lg:mx-0"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.2 }}
+        >
+          {featuredProduct ? (
             <div className="rounded-[20px] bg-surface-1 border border-[rgba(138,158,150,0.06)] p-5 flex flex-col gap-4">
               <div className="relative aspect-square rounded-[14px] bg-surface-2 overflow-hidden">
                 {featuredProduct.images[0] && (
@@ -81,8 +95,20 @@ export function Hero({ content, featuredProduct }: HeroProps) {
                 </span>
               </div>
             </div>
-          </motion.div>
-        )}
+          ) : (
+            <div className="rounded-[20px] bg-surface-1 border border-[rgba(138,158,150,0.06)] p-8 flex flex-col items-center justify-center gap-4 aspect-square">
+              <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
+                <span className="text-3xl font-bold text-accent">A</span>
+              </div>
+              <h3 className="font-headline text-lg font-bold text-text-primary text-center">
+                Qualité premium
+              </h3>
+              <p className="text-text-secondary text-sm text-center max-w-[260px]">
+                Des produits Apple reconditionnés avec soin, testés et garantis.
+              </p>
+            </div>
+          )}
+        </motion.div>
       </div>
     </section>
   );
