@@ -184,6 +184,23 @@ export function ContentEditor({
               }
             />
           </div>
+          <div>
+            <label className={labelClass}>Produit du Hero</label>
+            <select
+              className={inputClass}
+              value={hero.hero_product_id || ""}
+              onChange={(e) =>
+                setHero({ ...hero, hero_product_id: e.target.value })
+              }
+            >
+              <option value="">Automatique (dernier mis en avant)</option>
+              {products.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name} — {p.price} Ar
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="md:col-span-2">
             <label className={labelClass}>Image de fond</label>
             <ImageUploader

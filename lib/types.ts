@@ -33,6 +33,7 @@ export interface HeroContent {
   cta_primary: string;
   cta_secondary: string;
   background_image: string;
+  hero_product_id: string;
 }
 
 export interface FeaturedProductContent {

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { CONDITION_LABELS, formatPrice } from "@/lib/utils";
+import { ArrowRight } from "@phosphor-icons/react";
 import type { HeroContent, Product } from "@/lib/types";
 
 interface HeroProps {
@@ -71,30 +72,35 @@ export function Hero({ content, featuredProduct }: HeroProps) {
           transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.2 }}
         >
           {featuredProduct ? (
-            <div className="rounded-[20px] bg-surface-1 border border-[rgba(138,158,150,0.06)] p-5 flex flex-col gap-4">
-              <div className="relative aspect-square rounded-[14px] bg-surface-2 overflow-hidden">
-                {featuredProduct.images[0] && (
-                  <Image
-                    src={featuredProduct.images[0]}
-                    alt={featuredProduct.name}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                )}
+            <Link href={`/products/${featuredProduct.slug}`} className="block group">
+              <div className="rounded-[20px] bg-surface-1 border border-[rgba(138,158,150,0.06)] group-hover:border-accent/20 p-5 flex flex-col gap-4 transition-colors duration-300">
+                <div className="relative aspect-square rounded-[14px] bg-surface-2 overflow-hidden">
+                  {featuredProduct.images[0] && (
+                    <Image
+                      src={featuredProduct.images[0]}
+                      alt={featuredProduct.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      priority
+                    />
+                  )}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[11px] font-semibold text-accent-muted uppercase tracking-wider">
+                    {CONDITION_LABELS[featuredProduct.condition] ?? featuredProduct.condition}
+                  </span>
+                  <h3 className="font-headline text-lg font-bold text-text-primary">
+                    {featuredProduct.name}
+                  </h3>
+                  <div className="flex items-center justify-between">
+                    <span className="font-body text-xl font-bold text-accent-light">
+                      {formatPrice(featuredProduct.price)} Ar
+                    </span>
+                    <ArrowRight size={18} className="text-text-muted group-hover:text-accent-light transition-colors" />
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col gap-1.5">
-                <span className="text-[11px] font-semibold text-accent-muted uppercase tracking-wider">
-                  {CONDITION_LABELS[featuredProduct.condition] ?? featuredProduct.condition}
-                </span>
-                <h3 className="font-headline text-lg font-bold text-text-primary">
-                  {featuredProduct.name}
-                </h3>
-                <span className="font-body text-xl font-bold text-accent-light">
-                  {formatPrice(featuredProduct.price)} Ar
-                </span>
-              </div>
-            </div>
+            </Link>
           ) : (
             <div className="rounded-[20px] bg-surface-1 border border-[rgba(138,158,150,0.06)] p-8 flex flex-col items-center justify-center gap-4 aspect-square">
               <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
