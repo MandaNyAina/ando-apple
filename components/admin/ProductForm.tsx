@@ -24,9 +24,7 @@ interface ProductFormProps {
 
 export function ProductForm({ product, action }: ProductFormProps) {
   const [images, setImages] = useState<string[]>(product?.images ?? []);
-  const [specs, setSpecs] = useState<Record<string, string>>(
-    product?.specs ?? {}
-  );
+  const [specs, setSpecs] = useState<Record<string, string>>(product?.specs ?? {});
 
   const handleSubmit = async (formData: FormData) => {
     formData.set("images", JSON.stringify(images));
@@ -56,9 +54,7 @@ export function ProductForm({ product, action }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Categorie
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Categorie</label>
             <select
               name="category"
               required
@@ -77,9 +73,7 @@ export function ProductForm({ product, action }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Etat
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Etat</label>
             <select
               name="condition"
               required
@@ -98,9 +92,7 @@ export function ProductForm({ product, action }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Prix (Ar)
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Prix (Ar)</label>
             <input
               name="price"
               type="number"
@@ -125,14 +117,10 @@ export function ProductForm({ product, action }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              En stock
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">En stock</label>
             <select
               name="in_stock"
-              defaultValue={
-                product ? (product.in_stock ? "true" : "false") : "true"
-              }
+              defaultValue={product ? (product.in_stock ? "true" : "false") : "true"}
               className="w-full rounded-lg border border-admin-border bg-admin-bg px-4 py-2.5 text-sm text-surface-0 focus:border-admin-success focus:outline-none"
             >
               <option value="true">Oui</option>
@@ -141,14 +129,10 @@ export function ProductForm({ product, action }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Mis en avant
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Mis en avant</label>
             <select
               name="featured"
-              defaultValue={
-                product ? (product.featured ? "true" : "false") : "false"
-              }
+              defaultValue={product ? (product.featured ? "true" : "false") : "false"}
               className="w-full rounded-lg border border-admin-border bg-admin-bg px-4 py-2.5 text-sm text-surface-0 focus:border-admin-success focus:outline-none"
             >
               <option value="true">Oui</option>
@@ -157,9 +141,7 @@ export function ProductForm({ product, action }: ProductFormProps) {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Description
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Description</label>
             <textarea
               name="description"
               rows={4}
@@ -172,9 +154,7 @@ export function ProductForm({ product, action }: ProductFormProps) {
       </div>
 
       <div className="rounded-xl border border-admin-border bg-admin-card p-6">
-        <h2 className="mb-4 font-headline text-lg font-semibold text-surface-0">
-          Images
-        </h2>
+        <h2 className="mb-4 font-headline text-lg font-semibold text-surface-0">Images</h2>
         <ImageUploader images={images} onChange={setImages} />
       </div>
 

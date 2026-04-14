@@ -26,7 +26,7 @@
   --color-admin-warning: #a06060;
 
   /* Typography */
-  --font-headline: "Outfit", sans-serif;
+  --font-headline: var(--font-outfit, "Outfit"), sans-serif;
   --font-body: "Satoshi", sans-serif;
 
   /* Border radius */
@@ -38,21 +38,51 @@
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
-.animate-marquee { animation: marquee 15s linear infinite; }
+.animate-marquee {
+  animation: marquee 15s linear infinite;
+}
 
 @media (max-width: 768px) {
-  .animate-marquee { animation-duration: 10s; }
+  .animate-marquee {
+    animation-duration: 10s;
+  }
 }
 
 @keyframes gallery {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
-.animate-gallery { animation: gallery 18s linear infinite; }
+.animate-gallery {
+  animation: gallery 18s linear infinite;
+}
 
 @media (max-width: 768px) {
-  .animate-gallery { animation-duration: 12s; }
+  .animate-gallery {
+    animation-duration: 12s;
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-gallery {
+    animation: none;
+  }
+}
+
+/* Pause animations on hover for accessibility */
+.animate-marquee:hover,
+.animate-gallery:hover {
+  animation-play-state: paused;
 }

@@ -15,6 +15,7 @@ const defaultHero: HeroContent = {
   cta_primary: "Voir les produits",
   cta_secondary: "En savoir plus",
   background_image: "",
+  hero_product_id: "",
 };
 
 const defaultFeaturedProduct: FeaturedProductContent = {
@@ -25,7 +26,12 @@ const defaultFeaturedProduct: FeaturedProductContent = {
 
 const defaultValues: ValuesContent = {
   items: [
-    { title: "Qualité", icon: "ShieldCheck", description: "Produits vérifiés et certifiés", image: "" },
+    {
+      title: "Qualité",
+      icon: "ShieldCheck",
+      description: "Produits vérifiés et certifiés",
+      image: "",
+    },
     { title: "Service", icon: "Headset", description: "Support client réactif", image: "" },
     { title: "Prix", icon: "Tag", description: "Les meilleurs prix du marché", image: "" },
   ],
@@ -45,10 +51,7 @@ export default async function AdminContentPage() {
   const supabase = await createClient();
 
   const { data: sections } = await supabase.from("site_content").select("*");
-  const { data: products } = await supabase
-    .from("products")
-    .select("*")
-    .order("name");
+  const { data: products } = await supabase.from("products").select("*").order("name");
 
   const getSection = <T,>(name: string, fallback: T): T => {
     const found = sections?.find((s) => s.section === name);
@@ -58,13 +61,10 @@ export default async function AdminContentPage() {
   const hero = getSection<HeroContent>("hero", defaultHero);
   const featuredProduct = getSection<FeaturedProductContent>(
     "featured_product",
-    defaultFeaturedProduct
+    defaultFeaturedProduct,
   );
   const values = getSection<ValuesContent>("values", defaultValues);
-  const testimonials = getSection<TestimonialsContent>(
-    "testimonials",
-    defaultTestimonials
-  );
+  const testimonials = getSection<TestimonialsContent>("testimonials", defaultTestimonials);
   const cta = getSection<CTAContent>("cta", defaultCta);
   const gallery = getSection<GalleryContent>("gallery", { items: [] });
 
@@ -73,9 +73,7 @@ export default async function AdminContentPage() {
       <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
         Contenu du site
       </h1>
-      <p className="mt-1 text-sm text-text-muted">
-        Gérez le contenu de votre page d&apos;accueil
-      </p>
+      <p className="mt-1 text-sm text-text-muted">Gérez le contenu de votre page d&apos;accueil</p>
 
       <div className="mt-8">
         <ContentEditor

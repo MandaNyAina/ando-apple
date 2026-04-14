@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { PencilSimple, TrashSimple } from "@phosphor-icons/react";
 import { deleteCategory } from "@/lib/actions/categories";
@@ -18,8 +19,7 @@ export function CategoryTable({ categories }: CategoryTableProps) {
     setDeleting(id);
     try {
       await deleteCategory(id);
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Erreur lors de la suppression");
     } finally {
       setDeleting(null);
@@ -45,9 +45,11 @@ export function CategoryTable({ categories }: CategoryTableProps) {
             <tr key={cat.id} className="border-b border-admin-border last:border-0">
               <td className="px-4 py-3">
                 {cat.image ? (
-                  <img
+                  <Image
                     src={cat.image}
                     alt={cat.name}
+                    width={40}
+                    height={40}
                     className="h-10 w-10 rounded-lg border border-admin-border object-cover"
                   />
                 ) : (

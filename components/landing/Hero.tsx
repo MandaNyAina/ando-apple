@@ -23,7 +23,12 @@ export function Hero({ content, featuredProduct }: HeroProps) {
       {/* Background visual treatment */}
       {content.background_image ? (
         <div className="absolute inset-0">
-          <Image src={content.background_image} alt="" fill className="object-cover opacity-20" priority />
+          <Image
+            src={content.background_image}
+            alt=""
+            fill
+            className="object-cover opacity-20"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-surface-0/80 via-surface-0/60 to-surface-0" />
         </div>
       ) : (
@@ -47,9 +52,7 @@ export function Hero({ content, featuredProduct }: HeroProps) {
           </span>
           <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
             {titleMain}
-            {titleAccent && (
-              <span className="text-accent">{titleAccent}</span>
-            )}
+            {titleAccent && <span className="text-accent">{titleAccent}</span>}
           </h1>
           <p className="text-text-secondary text-base md:text-lg max-w-lg leading-relaxed">
             {content.subtitle}
@@ -96,7 +99,10 @@ export function Hero({ content, featuredProduct }: HeroProps) {
                     <span className="font-body text-xl font-bold text-accent-light">
                       {formatPrice(featuredProduct.price)} Ar
                     </span>
-                    <ArrowRight size={18} className="text-text-muted group-hover:text-accent-light transition-colors" />
+                    <ArrowRight
+                      size={18}
+                      className="text-text-muted group-hover:text-accent-light transition-colors"
+                    />
                   </div>
                 </div>
               </div>

@@ -1,7 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import * as PhosphorIcons from "@phosphor-icons/react";
+import {
+  ShieldCheck,
+  Tag,
+  Star,
+  Headset,
+  MagnifyingGlass,
+  CurrencyCircleDollar,
+  Recycle,
+  Certificate,
+  Heart,
+  Lightning,
+  CheckCircle,
+  Handshake,
+  Trophy,
+  Leaf,
+  Lock,
+  type Icon as PhosphorIcon,
+} from "@phosphor-icons/react";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import type { ValuesContent } from "@/lib/types";
 
@@ -9,10 +26,26 @@ interface TrustValuesProps {
   content: ValuesContent;
 }
 
-function getPhosphorIcon(iconName: string) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const Icon = (PhosphorIcons as any)[iconName] as React.ComponentType<{ size?: number; weight?: string; className?: string }> | undefined;
-  return Icon ?? PhosphorIcons.Star;
+const ICON_MAP: Record<string, PhosphorIcon> = {
+  ShieldCheck,
+  Tag,
+  Star,
+  Headset,
+  MagnifyingGlass,
+  CurrencyCircleDollar,
+  Recycle,
+  Certificate,
+  Heart,
+  Lightning,
+  CheckCircle,
+  Handshake,
+  Trophy,
+  Leaf,
+  Lock,
+};
+
+function getPhosphorIcon(iconName: string): PhosphorIcon {
+  return ICON_MAP[iconName] ?? Star;
 }
 
 export function TrustValues({ content }: TrustValuesProps) {
@@ -34,7 +67,7 @@ export function TrustValues({ content }: TrustValuesProps) {
             const number = String(i + 1).padStart(2, "0");
 
             return (
-              <ScrollReveal key={i} delay={i * 0.1}>
+              <ScrollReveal key={`value-${item.title}-${i}`} delay={i * 0.1}>
                 <div
                   className={`flex flex-col ${isReversed ? "md:flex-row-reverse" : "md:flex-row"} gap-10 md:gap-16 items-center`}
                 >
@@ -58,12 +91,7 @@ export function TrustValues({ content }: TrustValuesProps) {
                   <div className="flex-1 w-full">
                     <div className="relative aspect-[4/3] rounded-[16px] bg-surface-1 border border-[rgba(138,158,150,0.06)] overflow-hidden">
                       {item.image ? (
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          fill
-                          className="object-cover"
-                        />
+                        <Image src={item.image} alt={item.title} fill className="object-cover" />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Icon size={64} weight="thin" className="text-surface-3" />

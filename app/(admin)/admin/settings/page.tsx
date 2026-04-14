@@ -51,9 +51,7 @@ export default function AdminSettingsPage() {
       }));
       await updateSettings(entries);
       setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Erreur lors de la sauvegarde");
     } finally {
       setSaving(false);
@@ -77,9 +75,7 @@ export default function AdminSettingsPage() {
 
   return (
     <div>
-      <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
-        Parametres
-      </h1>
+      <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">Parametres</h1>
       <p className="mt-1 text-sm text-text-muted">
         Configurez les informations generales de votre site
       </p>
@@ -93,9 +89,7 @@ export default function AdminSettingsPage() {
                 className={inputClass}
                 placeholder={placeholder}
                 value={values[key] || ""}
-                onChange={(e) =>
-                  setValues((prev) => ({ ...prev, [key]: e.target.value }))
-                }
+                onChange={(e) => setValues((prev) => ({ ...prev, [key]: e.target.value }))}
               />
             </div>
           ))}
@@ -105,9 +99,7 @@ export default function AdminSettingsPage() {
           <label className={labelClass}>Logo du site</label>
           <ImageUploader
             images={values.logo_url ? [values.logo_url] : []}
-            onChange={(imgs) =>
-              setValues((prev) => ({ ...prev, logo_url: imgs[0] ?? "" }))
-            }
+            onChange={(imgs) => setValues((prev) => ({ ...prev, logo_url: imgs[0] ?? "" }))}
             bucket="site-assets"
           />
         </div>
@@ -123,9 +115,7 @@ export default function AdminSettingsPage() {
             {saving ? "Enregistrement..." : "Enregistrer"}
           </button>
           {saved && (
-            <span className="text-sm font-medium text-admin-success">
-              Sauvegarde avec succes !
-            </span>
+            <span className="text-sm font-medium text-admin-success">Sauvegarde avec succes !</span>
           )}
         </div>
       </div>

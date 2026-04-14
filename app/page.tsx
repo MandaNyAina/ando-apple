@@ -85,8 +85,7 @@ const DEFAULT_TESTIMONIALS: TestimonialsContent = {
       name: "Tiana Andria",
       role: "Client iPad",
       rating: 4,
-      comment:
-        "Très satisfait de mon iPad. La garantie 24 mois est vraiment rassurante.",
+      comment: "Très satisfait de mon iPad. La garantie 24 mois est vraiment rassurante.",
     },
   ],
 };
@@ -98,9 +97,7 @@ const DEFAULT_FEATURED_PRODUCT: FeaturedProductContent = {
 };
 
 async function getSiteContent(supabase: Awaited<ReturnType<typeof createClient>>) {
-  const { data } = await supabase
-    .from("site_content")
-    .select("section, content");
+  const { data } = await supabase.from("site_content").select("section, content");
 
   const map = new Map<string, Record<string, unknown>>();
   if (data) {
@@ -134,9 +131,12 @@ export default async function Home() {
   ]);
 
   const heroContent = (contentMap.get("hero") as unknown as HeroContent) ?? DEFAULT_HERO;
-  const featuredProductContent = (contentMap.get("featured_product") as unknown as FeaturedProductContent) ?? DEFAULT_FEATURED_PRODUCT;
+  const featuredProductContent =
+    (contentMap.get("featured_product") as unknown as FeaturedProductContent) ??
+    DEFAULT_FEATURED_PRODUCT;
   const valuesContent = (contentMap.get("values") as unknown as ValuesContent) ?? DEFAULT_VALUES;
-  const testimonialsContent = (contentMap.get("testimonials") as unknown as TestimonialsContent) ?? DEFAULT_TESTIMONIALS;
+  const testimonialsContent =
+    (contentMap.get("testimonials") as unknown as TestimonialsContent) ?? DEFAULT_TESTIMONIALS;
   const ctaContent = (contentMap.get("cta") as unknown as CTAContent) ?? DEFAULT_CTA;
 
   // Hero product: use hero_product_id from content, or fallback to first featured
@@ -176,7 +176,7 @@ export default async function Home() {
       .map((item) => item.product_id)
       .filter((id) => id && id.length > 0);
 
-    let slugMap = new Map<string, string>();
+    const slugMap = new Map<string, string>();
     if (productIds.length > 0) {
       const { data: linkedProducts } = await supabase
         .from("products")
@@ -191,9 +191,10 @@ export default async function Home() {
 
     galleryItems = galleryRaw.items.map((item) => ({
       image: item.image,
-      link: item.product_id && slugMap.has(item.product_id)
-        ? `/products/${slugMap.get(item.product_id)}`
-        : "",
+      link:
+        item.product_id && slugMap.has(item.product_id)
+          ? `/products/${slugMap.get(item.product_id)}`
+          : "",
     }));
   }
 

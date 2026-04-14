@@ -33,7 +33,7 @@ export function Testimonials({ content }: TestimonialsProps) {
               <ScrollReveal key={i} delay={i * 0.08} className={i % 2 !== 0 ? "md:mt-10" : ""}>
                 <div className="rounded-[16px] bg-surface-2 border border-[rgba(138,158,150,0.06)] p-6 flex flex-col gap-4">
                   {/* Stars */}
-                  <div className="flex gap-0.5">
+                  <div className="flex gap-0.5" aria-label={`Note : ${item.rating} sur 5`}>
                     {Array.from({ length: 5 }).map((_, s) => (
                       <Star
                         key={s}

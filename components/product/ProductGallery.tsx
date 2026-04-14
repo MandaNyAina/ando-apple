@@ -50,6 +50,8 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
             <button
               key={i}
               onClick={() => setSelected(i)}
+              aria-label={`Voir l'image ${i + 1}`}
+              aria-pressed={i === selected}
               className={`relative w-20 h-20 flex-shrink-0 rounded-[10px] overflow-hidden border-2 transition-colors duration-200 cursor-pointer ${
                 i === selected
                   ? "border-accent"

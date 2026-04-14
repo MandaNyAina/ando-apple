@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import type { Category } from "@/lib/types";
@@ -17,13 +18,7 @@ interface BentoItem {
   badge: string;
 }
 
-function BentoCard({
-  cat,
-  className = "",
-}: {
-  cat: BentoItem;
-  className?: string;
-}) {
+function BentoCard({ cat, className = "" }: { cat: BentoItem; className?: string }) {
   return (
     <Link href={cat.href} className={className}>
       <motion.div
@@ -31,11 +26,15 @@ function BentoCard({
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
       >
-        <img
-          src={cat.image}
-          alt={cat.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+        {cat.image && (
+          <Image
+            src={cat.image}
+            alt={cat.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-surface-0/80 via-surface-0/20 to-transparent" />
         <div className="absolute bottom-4 left-5">
           {cat.badge && (
@@ -43,12 +42,8 @@ function BentoCard({
               {cat.badge}
             </span>
           )}
-          <h3 className="font-headline text-xl font-bold text-text-primary">
-            {cat.title}
-          </h3>
-          {cat.description && (
-            <p className="text-xs text-text-muted mt-0.5">{cat.description}</p>
-          )}
+          <h3 className="font-headline text-xl font-bold text-text-primary">{cat.title}</h3>
+          {cat.description && <p className="text-xs text-text-muted mt-0.5">{cat.description}</p>}
         </div>
       </motion.div>
     </Link>
@@ -114,7 +109,7 @@ function renderBentoLayout(items: BentoItem[]) {
           <BentoCard cat={items[i + 1]} className="md:col-span-2" />
           <BentoCard cat={items[i + 2]} />
           <BentoCard cat={items[i + 3]} />
-        </div>
+        </div>,
       );
       i += 4;
     } else if (remaining === 3) {
@@ -127,19 +122,16 @@ function renderBentoLayout(items: BentoItem[]) {
           <BentoCard cat={items[i]} className="md:row-span-2" />
           <BentoCard cat={items[i + 1]} />
           <BentoCard cat={items[i + 2]} />
-        </div>
+        </div>,
       );
       i += 3;
     } else if (remaining === 2) {
       // 2 remaining: side by side
       rows.push(
-        <div
-          key={`group-${groupIndex}`}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
-        >
+        <div key={`group-${groupIndex}`} className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <BentoCard cat={items[i]} />
           <BentoCard cat={items[i + 1]} />
-        </div>
+        </div>,
       );
       i += 2;
     } else {
@@ -147,7 +139,7 @@ function renderBentoLayout(items: BentoItem[]) {
       rows.push(
         <div key={`group-${groupIndex}`} className="grid grid-cols-1 gap-4">
           <BentoCard cat={items[i]} />
-        </div>
+        </div>,
       );
       i += 1;
     }
@@ -162,7 +154,7 @@ export function BentoGrid({ categories = [] }: BentoGridProps) {
     .filter((cat) => cat.visible_on_landing)
     .map((cat) => ({
       title: cat.name,
-      image: cat.image || `https://picsum.photos/seed/${cat.slug}/800/800`,
+      image: cat.image || "",
       href: `/products?category=${cat.slug}`,
       description: cat.description,
       badge: cat.badge,
@@ -175,13 +167,11 @@ export function BentoGrid({ categories = [] }: BentoGridProps) {
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <ScrollReveal>
           <h2 className="font-headline text-3xl md:text-4xl font-extrabold tracking-tight mb-10 text-center">
-            Nos categories
+            Nos catégories
           </h2>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.15}>
-          {renderBentoLayout(items)}
-        </ScrollReveal>
+        <ScrollReveal delay={0.15}>{renderBentoLayout(items)}</ScrollReveal>
       </div>
     </section>
   );

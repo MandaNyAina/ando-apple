@@ -3,22 +3,33 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
-export async function updateSettings(
-  entries: { key: string; value: string }[]
-) {
+async function requireAuth() {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Non autorisé");
+  return supabase;
+}
 
-  for (const entry of entries) {
-    const { error } = await supabase
-      .from("settings")
-      .upsert(
-        { key: entry.key, value: entry.value, updated_at: new Date().toISOString() },
-        { onConflict: "key" }
-      );
+export async function updateSettings(entries: { key: string; value: string }[]) {
+  const supabase = await requireAuth();
 
-    if (error) {
-      throw new Error(error.message);
-    }
+  const results = await Promise.all(
+    entries.map((entry) =>
+      supabase
+        .from("settings")
+        .upsert(
+          { key: entry.key, value: entry.value, updated_at: new Date().toISOString() },
+          { onConflict: "key" },
+        ),
+    ),
+  );
+
+  const failed = results.find((r) => r.error);
+  if (failed?.error) {
+    console.error("[updateSettings]", failed.error);
+    throw new Error("Erreur lors de la mise à jour des paramètres.");
   }
 
   revalidatePath("/");

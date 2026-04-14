@@ -22,9 +22,7 @@ export function CTASection({ content }: CTASectionProps) {
           <h2 className="font-headline text-3xl md:text-5xl font-extrabold tracking-tight max-w-2xl">
             {content.title}
           </h2>
-          <p className="text-text-secondary text-base md:text-lg max-w-lg">
-            {content.subtitle}
-          </p>
+          <p className="text-text-secondary text-base md:text-lg max-w-lg">{content.subtitle}</p>
           <Link href="/products" className="mt-4">
             <Button variant="solid">{content.button_text}</Button>
           </Link>

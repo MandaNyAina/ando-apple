@@ -24,23 +24,14 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
-        Dashboard
-      </h1>
-      <p className="mt-1 text-sm text-text-muted">
-        Vue d&apos;ensemble de votre catalogue
-      </p>
+      <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">Dashboard</h1>
+      <p className="mt-1 text-sm text-text-muted">Vue d&apos;ensemble de votre catalogue</p>
 
       <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
         {stats.map(({ label, value, color }) => (
-          <div
-            key={label}
-            className="rounded-xl border border-admin-border bg-admin-card p-6"
-          >
+          <div key={label} className="rounded-xl border border-admin-border bg-admin-card p-6">
             <p className="text-sm font-medium text-text-muted">{label}</p>
-            <p className={`mt-2 font-headline text-3xl font-bold ${color}`}>
-              {value}
-            </p>
+            <p className={`mt-2 font-headline text-3xl font-bold ${color}`}>{value}</p>
           </div>
         ))}
       </div>

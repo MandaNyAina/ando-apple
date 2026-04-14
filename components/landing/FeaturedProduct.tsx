@@ -25,18 +25,11 @@ export function FeaturedProduct({ content, product }: FeaturedProductProps) {
           <h2 className="font-headline text-3xl md:text-5xl font-extrabold tracking-tight">
             {product.name}
           </h2>
-          <p className="text-text-secondary text-base md:text-lg max-w-lg">
-            {content.subtitle}
-          </p>
+          <p className="text-text-secondary text-base md:text-lg max-w-lg">{content.subtitle}</p>
 
           <div className="relative w-full max-w-2xl aspect-[4/3] rounded-[20px] bg-surface-1 border border-[rgba(138,158,150,0.06)] overflow-hidden mt-4">
             {product.images[0] && (
-              <Image
-                src={product.images[0]}
-                alt={product.name}
-                fill
-                className="object-cover"
-              />
+              <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
             )}
           </div>
 

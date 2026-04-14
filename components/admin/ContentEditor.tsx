@@ -37,11 +37,9 @@ export function ContentEditor({
   products,
 }: ContentEditorProps) {
   const [hero, setHero] = useState<HeroContent>(initialHero);
-  const [featuredProduct, setFeaturedProduct] =
-    useState<FeaturedProductContent>(initialFeatured);
+  const [featuredProduct, setFeaturedProduct] = useState<FeaturedProductContent>(initialFeatured);
   const [values, setValues] = useState<ValuesContent>(initialValues);
-  const [testimonials, setTestimonials] =
-    useState<TestimonialsContent>(initialTestimonials);
+  const [testimonials, setTestimonials] = useState<TestimonialsContent>(initialTestimonials);
   const [cta, setCta] = useState<CTAContent>(initialCta);
   const [gallery, setGallery] = useState<GalleryContent>(initialGallery);
   const [saving, setSaving] = useState(false);
@@ -55,26 +53,15 @@ export function ContentEditor({
         updateSiteContent("hero", hero as unknown as Record<string, unknown>),
         updateSiteContent(
           "featured_product",
-          featuredProduct as unknown as Record<string, unknown>
+          featuredProduct as unknown as Record<string, unknown>,
         ),
-        updateSiteContent(
-          "values",
-          values as unknown as Record<string, unknown>
-        ),
-        updateSiteContent(
-          "testimonials",
-          testimonials as unknown as Record<string, unknown>
-        ),
+        updateSiteContent("values", values as unknown as Record<string, unknown>),
+        updateSiteContent("testimonials", testimonials as unknown as Record<string, unknown>),
         updateSiteContent("cta", cta as unknown as Record<string, unknown>),
-        updateSiteContent(
-          "gallery",
-          gallery as unknown as Record<string, unknown>
-        ),
+        updateSiteContent("gallery", gallery as unknown as Record<string, unknown>),
       ]);
       setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Erreur lors de la sauvegarde");
     } finally {
       setSaving(false);
@@ -89,10 +76,7 @@ export function ContentEditor({
 
   const addTestimonial = () => {
     setTestimonials({
-      items: [
-        ...testimonials.items,
-        { name: "", role: "", rating: 5, comment: "" },
-      ],
+      items: [...testimonials.items, { name: "", role: "", rating: 5, comment: "" }],
     });
   };
 
@@ -102,11 +86,7 @@ export function ContentEditor({
     });
   };
 
-  const updateTestimonial = (
-    index: number,
-    field: keyof TestimonialItem,
-    val: string | number
-  ) => {
+  const updateTestimonial = (index: number, field: keyof TestimonialItem, val: string | number) => {
     const updated = [...testimonials.items];
     updated[index] = { ...updated[index], [field]: val };
     setTestimonials({ items: updated });
@@ -124,11 +104,7 @@ export function ContentEditor({
     });
   };
 
-  const updateGalleryItem = (
-    index: number,
-    field: keyof GalleryItem,
-    val: string
-  ) => {
+  const updateGalleryItem = (index: number, field: keyof GalleryItem, val: string) => {
     const updated = [...gallery.items];
     updated[index] = { ...updated[index], [field]: val };
     setGallery({ items: updated });
@@ -137,16 +113,13 @@ export function ContentEditor({
   const inputClass =
     "w-full rounded-lg border border-admin-border bg-white px-4 py-2.5 text-sm text-surface-0 outline-none focus:border-admin-success focus:ring-1 focus:ring-admin-success";
   const labelClass = "block text-sm font-medium text-surface-0 mb-1.5";
-  const cardClass =
-    "rounded-[14px] border border-admin-border bg-white p-6";
+  const cardClass = "rounded-[14px] border border-admin-border bg-white p-6";
 
   return (
     <div className="space-y-8">
       {/* Hero Section */}
       <div className={cardClass}>
-        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">
-          Hero
-        </h2>
+        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Hero</h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <div>
             <label className={labelClass}>Titre</label>
@@ -169,9 +142,7 @@ export function ContentEditor({
             <input
               className={inputClass}
               value={hero.cta_primary}
-              onChange={(e) =>
-                setHero({ ...hero, cta_primary: e.target.value })
-              }
+              onChange={(e) => setHero({ ...hero, cta_primary: e.target.value })}
             />
           </div>
           <div>
@@ -179,9 +150,7 @@ export function ContentEditor({
             <input
               className={inputClass}
               value={hero.cta_secondary}
-              onChange={(e) =>
-                setHero({ ...hero, cta_secondary: e.target.value })
-              }
+              onChange={(e) => setHero({ ...hero, cta_secondary: e.target.value })}
             />
           </div>
           <div>
@@ -189,9 +158,7 @@ export function ContentEditor({
             <select
               className={inputClass}
               value={hero.hero_product_id || ""}
-              onChange={(e) =>
-                setHero({ ...hero, hero_product_id: e.target.value })
-              }
+              onChange={(e) => setHero({ ...hero, hero_product_id: e.target.value })}
             >
               <option value="">Automatique (dernier mis en avant)</option>
               {products.map((p) => (
@@ -205,9 +172,7 @@ export function ContentEditor({
             <label className={labelClass}>Image de fond</label>
             <ImageUploader
               images={hero.background_image ? [hero.background_image] : []}
-              onChange={(imgs) =>
-                setHero({ ...hero, background_image: imgs[0] || "" })
-              }
+              onChange={(imgs) => setHero({ ...hero, background_image: imgs[0] || "" })}
               bucket="site-assets"
             />
           </div>
@@ -216,9 +181,7 @@ export function ContentEditor({
 
       {/* Featured Product Section */}
       <div className={cardClass}>
-        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">
-          Produit en vedette
-        </h2>
+        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Produit en vedette</h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           <div>
             <label className={labelClass}>Produit</label>
@@ -271,27 +234,18 @@ export function ContentEditor({
 
       {/* Values Section */}
       <div className={cardClass}>
-        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">
-          Nos valeurs
-        </h2>
+        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Nos valeurs</h2>
         <div className="space-y-6">
           {values.items.slice(0, 3).map((item, index) => (
-            <div
-              key={index}
-              className="rounded-lg border border-admin-border bg-admin-bg p-4"
-            >
-              <p className="mb-3 text-sm font-semibold text-text-muted">
-                Valeur {index + 1}
-              </p>
+            <div key={index} className="rounded-lg border border-admin-border bg-admin-bg p-4">
+              <p className="mb-3 text-sm font-semibold text-text-muted">Valeur {index + 1}</p>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div>
                   <label className={labelClass}>Titre</label>
                   <input
                     className={inputClass}
                     value={item.title}
-                    onChange={(e) =>
-                      updateValue(index, "title", e.target.value)
-                    }
+                    onChange={(e) => updateValue(index, "title", e.target.value)}
                   />
                 </div>
                 <div>
@@ -299,9 +253,7 @@ export function ContentEditor({
                   <input
                     className={inputClass}
                     value={item.icon}
-                    onChange={(e) =>
-                      updateValue(index, "icon", e.target.value)
-                    }
+                    onChange={(e) => updateValue(index, "icon", e.target.value)}
                   />
                 </div>
                 <div>
@@ -309,9 +261,7 @@ export function ContentEditor({
                   <input
                     className={inputClass}
                     value={item.description}
-                    onChange={(e) =>
-                      updateValue(index, "description", e.target.value)
-                    }
+                    onChange={(e) => updateValue(index, "description", e.target.value)}
                   />
                 </div>
               </div>
@@ -323,9 +273,7 @@ export function ContentEditor({
       {/* Testimonials Section */}
       <div className={cardClass}>
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="font-headline text-lg font-bold text-surface-0">
-            Témoignages
-          </h2>
+          <h2 className="font-headline text-lg font-bold text-surface-0">Témoignages</h2>
           <button
             type="button"
             onClick={addTestimonial}
@@ -337,14 +285,9 @@ export function ContentEditor({
         </div>
         <div className="space-y-4">
           {testimonials.items.map((item, index) => (
-            <div
-              key={index}
-              className="rounded-lg border border-admin-border bg-admin-bg p-4"
-            >
+            <div key={index} className="rounded-lg border border-admin-border bg-admin-bg p-4">
               <div className="mb-3 flex items-center justify-between">
-                <p className="text-sm font-semibold text-text-muted">
-                  Témoignage {index + 1}
-                </p>
+                <p className="text-sm font-semibold text-text-muted">Témoignage {index + 1}</p>
                 <button
                   type="button"
                   onClick={() => removeTestimonial(index)}
@@ -359,9 +302,7 @@ export function ContentEditor({
                   <input
                     className={inputClass}
                     value={item.name}
-                    onChange={(e) =>
-                      updateTestimonial(index, "name", e.target.value)
-                    }
+                    onChange={(e) => updateTestimonial(index, "name", e.target.value)}
                   />
                 </div>
                 <div>
@@ -369,9 +310,7 @@ export function ContentEditor({
                   <input
                     className={inputClass}
                     value={item.role}
-                    onChange={(e) =>
-                      updateTestimonial(index, "role", e.target.value)
-                    }
+                    onChange={(e) => updateTestimonial(index, "role", e.target.value)}
                   />
                 </div>
                 <div>
@@ -383,11 +322,7 @@ export function ContentEditor({
                     className={inputClass}
                     value={item.rating}
                     onChange={(e) =>
-                      updateTestimonial(
-                        index,
-                        "rating",
-                        parseInt(e.target.value) || 1
-                      )
+                      updateTestimonial(index, "rating", parseInt(e.target.value) || 1)
                     }
                   />
                 </div>
@@ -396,9 +331,7 @@ export function ContentEditor({
                   <input
                     className={inputClass}
                     value={item.comment}
-                    onChange={(e) =>
-                      updateTestimonial(index, "comment", e.target.value)
-                    }
+                    onChange={(e) => updateTestimonial(index, "comment", e.target.value)}
                   />
                 </div>
               </div>
@@ -415,9 +348,7 @@ export function ContentEditor({
       {/* Gallery Section */}
       <div className={cardClass}>
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="font-headline text-lg font-bold text-surface-0">
-            Galerie d&apos;images
-          </h2>
+          <h2 className="font-headline text-lg font-bold text-surface-0">Galerie d&apos;images</h2>
           <button
             type="button"
             onClick={addGalleryItem}
@@ -429,14 +360,9 @@ export function ContentEditor({
         </div>
         <div className="space-y-4">
           {gallery.items.map((item, index) => (
-            <div
-              key={index}
-              className="rounded-lg border border-admin-border bg-admin-bg p-4"
-            >
+            <div key={index} className="rounded-lg border border-admin-border bg-admin-bg p-4">
               <div className="mb-3 flex items-center justify-between">
-                <p className="text-sm font-semibold text-text-muted">
-                  Image {index + 1}
-                </p>
+                <p className="text-sm font-semibold text-text-muted">Image {index + 1}</p>
                 <button
                   type="button"
                   onClick={() => removeGalleryItem(index)}
@@ -450,9 +376,7 @@ export function ContentEditor({
                   <label className={labelClass}>Image</label>
                   <ImageUploader
                     images={item.image ? [item.image] : []}
-                    onChange={(imgs) =>
-                      updateGalleryItem(index, "image", imgs[0] || "")
-                    }
+                    onChange={(imgs) => updateGalleryItem(index, "image", imgs[0] || "")}
                     bucket="site-assets"
                   />
                 </div>
@@ -461,9 +385,7 @@ export function ContentEditor({
                   <select
                     className={inputClass}
                     value={item.product_id}
-                    onChange={(e) =>
-                      updateGalleryItem(index, "product_id", e.target.value)
-                    }
+                    onChange={(e) => updateGalleryItem(index, "product_id", e.target.value)}
                   >
                     <option value="">Aucun lien</option>
                     {products.map((p) => (
@@ -486,9 +408,7 @@ export function ContentEditor({
 
       {/* CTA Section */}
       <div className={cardClass}>
-        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">
-          Call to Action
-        </h2>
+        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Call to Action</h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           <div>
             <label className={labelClass}>Titre</label>
@@ -529,9 +449,7 @@ export function ContentEditor({
           {saving ? "Enregistrement..." : "Enregistrer tout"}
         </button>
         {saved && (
-          <span className="text-sm font-medium text-admin-success">
-            Sauvegardé avec succès !
-          </span>
+          <span className="text-sm font-medium text-admin-success">Sauvegardé avec succès !</span>
         )}
       </div>
     </div>

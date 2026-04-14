@@ -17,12 +17,8 @@ export default async function AdminPagesPage() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
-            Pages
-          </h1>
-          <p className="mt-1 text-sm text-text-muted">
-            Gerez les pages statiques du site
-          </p>
+          <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">Pages</h1>
+          <p className="mt-1 text-sm text-text-muted">Gerez les pages statiques du site</p>
         </div>
         <Link
           href="/admin/pages/new"

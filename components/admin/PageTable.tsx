@@ -38,13 +38,8 @@ export function PageTable({ pages }: PageTableProps) {
         </thead>
         <tbody>
           {pages.map((page) => (
-            <tr
-              key={page.id}
-              className="border-b border-admin-border last:border-b-0"
-            >
-              <td className="px-4 py-3 font-medium text-surface-0">
-                {page.title}
-              </td>
+            <tr key={page.id} className="border-b border-admin-border last:border-b-0">
+              <td className="px-4 py-3 font-medium text-surface-0">{page.title}</td>
               <td className="px-4 py-3 text-text-muted">/{page.slug}</td>
               <td className="px-4 py-3">
                 <span

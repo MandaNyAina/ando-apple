@@ -1,16 +1,28 @@
 import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { getLogoUrl, getCategories, getVisibleCategories } from "@/lib/data";
+import { getLogoUrl, getVisibleCategories } from "@/lib/data";
 import { Nav } from "@/components/landing/Nav";
 import { Footer } from "@/components/landing/Footer";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductFilters } from "@/components/product/ProductFilters";
 import type { Product } from "@/lib/types";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
 
 interface ProductsPageProps {
   searchParams: Promise<{ category?: string; condition?: string }>;
+}
+
+export async function generateMetadata({ searchParams }: ProductsPageProps): Promise<Metadata> {
+  const { category } = await searchParams;
+  return {
+    title: category
+      ? `${category} reconditionné — ASE TECH`
+      : "Tous nos produits — ASE TECH",
+    description:
+      "Découvrez notre catalogue de produits Apple reconditionnés. Qualité premium, prix accessible, garantie 24 mois.",
+  };
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
@@ -31,10 +43,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     query = query.eq("condition", condition);
   }
 
-  const [{ data }, logoUrl, allCategories, visibleCategories] = await Promise.all([
+  const [{ data }, logoUrl, visibleCategories] = await Promise.all([
     query,
     getLogoUrl(),
-    getCategories(),
     getVisibleCategories(),
   ]);
 
@@ -47,11 +58,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       <section className="pt-28 pb-20 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto space-y-8">
           <div className="space-y-2">
-            <h1 className="font-headline font-bold text-3xl md:text-4xl">
-              Nos produits
-            </h1>
+            <h1 className="font-headline font-bold text-3xl md:text-4xl">Nos produits</h1>
             <p className="text-text-muted text-[15px]">
-              {products.length} produit{products.length !== 1 ? "s" : ""} disponible{products.length !== 1 ? "s" : ""}
+              {products.length} produit{products.length !== 1 ? "s" : ""} disponible
+              {products.length !== 1 ? "s" : ""}
             </p>
           </div>
 

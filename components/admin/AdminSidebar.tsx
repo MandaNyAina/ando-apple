@@ -40,9 +40,7 @@ export function AdminSidebar() {
   return (
     <aside className="flex w-64 flex-col border-r border-admin-border bg-admin-card">
       <div className="border-b border-admin-border p-6">
-        <h1 className="font-headline text-xl font-bold tracking-tight text-surface-0">
-          ASE TECH
-        </h1>
+        <span className="font-headline text-xl font-bold tracking-tight text-surface-0">ASE TECH</span>
         <p className="mt-1 text-sm text-text-muted">Administration</p>
       </div>
 

@@ -6,7 +6,9 @@ const CONDITION_LABELS: Record<string, string> = {
   good: "Grade B — Bon état",
 };
 
-interface BadgeProps { condition: string; }
+interface BadgeProps {
+  condition: string;
+}
 
 export function Badge({ condition }: BadgeProps) {
   return (

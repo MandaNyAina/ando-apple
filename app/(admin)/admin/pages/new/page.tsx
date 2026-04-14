@@ -8,9 +8,7 @@ export default function NewPagePage() {
         <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
           Nouvelle page
         </h1>
-        <p className="mt-1 text-sm text-text-muted">
-          Creez une nouvelle page statique
-        </p>
+        <p className="mt-1 text-sm text-text-muted">Creez une nouvelle page statique</p>
       </div>
 
       <PageForm action={createPage} />

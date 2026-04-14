@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { Page } from "@/lib/types";
 import { generateSlug } from "@/lib/utils";
 
@@ -11,14 +11,10 @@ interface PageFormProps {
 
 export function PageForm({ page, action }: PageFormProps) {
   const [title, setTitle] = useState(page?.title ?? "");
-  const [slug, setSlug] = useState(page?.slug ?? "");
+  const [manualSlug, setManualSlug] = useState(page?.slug ?? "");
   const [slugManual, setSlugManual] = useState(!!page);
 
-  useEffect(() => {
-    if (!slugManual) {
-      setSlug(generateSlug(title));
-    }
-  }, [title, slugManual]);
+  const slug = slugManual ? manualSlug : generateSlug(title);
 
   return (
     <form action={action} className="space-y-8">
@@ -28,9 +24,7 @@ export function PageForm({ page, action }: PageFormProps) {
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Titre
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Titre</label>
             <input
               name="title"
               type="text"
@@ -43,9 +37,7 @@ export function PageForm({ page, action }: PageFormProps) {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Slug
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Slug</label>
             <input
               name="slug"
               type="text"
@@ -53,7 +45,7 @@ export function PageForm({ page, action }: PageFormProps) {
               value={slug}
               onChange={(e) => {
                 setSlugManual(true);
-                setSlug(e.target.value);
+                setManualSlug(e.target.value);
               }}
               className="w-full rounded-lg border border-admin-border bg-admin-bg px-4 py-2.5 text-sm text-surface-0 placeholder:text-text-muted focus:border-admin-success focus:outline-none"
               placeholder="politique-de-confidentialite"
@@ -76,14 +68,10 @@ export function PageForm({ page, action }: PageFormProps) {
       </div>
 
       <div className="rounded-xl border border-admin-border bg-admin-card p-6">
-        <h2 className="mb-4 font-headline text-lg font-semibold text-surface-0">
-          SEO
-        </h2>
+        <h2 className="mb-4 font-headline text-lg font-semibold text-surface-0">SEO</h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Meta titre
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Meta titre</label>
             <input
               name="meta_title"
               type="text"
@@ -142,19 +130,13 @@ export function PageForm({ page, action }: PageFormProps) {
       </div>
 
       <div className="rounded-xl border border-admin-border bg-admin-card p-6">
-        <h2 className="mb-4 font-headline text-lg font-semibold text-surface-0">
-          Options
-        </h2>
+        <h2 className="mb-4 font-headline text-lg font-semibold text-surface-0">Options</h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-text-muted">
-              Publiee
-            </label>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">Publiee</label>
             <select
               name="published"
-              defaultValue={
-                page ? (page.published ? "true" : "false") : "true"
-              }
+              defaultValue={page ? (page.published ? "true" : "false") : "true"}
               className="w-full rounded-lg border border-admin-border bg-admin-bg px-4 py-2.5 text-sm text-surface-0 focus:border-admin-success focus:outline-none"
             >
               <option value="true">Oui</option>
@@ -168,9 +150,7 @@ export function PageForm({ page, action }: PageFormProps) {
             </label>
             <select
               name="show_in_footer"
-              defaultValue={
-                page ? (page.show_in_footer ? "true" : "false") : "true"
-              }
+              defaultValue={page ? (page.show_in_footer ? "true" : "false") : "true"}
               className="w-full rounded-lg border border-admin-border bg-admin-bg px-4 py-2.5 text-sm text-surface-0 focus:border-admin-success focus:outline-none"
             >
               <option value="true">Oui</option>

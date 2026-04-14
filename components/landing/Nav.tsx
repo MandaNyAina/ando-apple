@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MagnifyingGlass, List, X } from "@phosphor-icons/react";
+import Image from "next/image";
 import Link from "next/link";
 import type { Category } from "@/lib/types";
 
@@ -21,15 +22,30 @@ export function Nav({ logoUrl, categories }: NavProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileOpen) {
+        setMobileOpen(false);
+      }
+    },
+    [mobileOpen],
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   const navLinks = [
     { href: "/products", label: "Produits" },
@@ -42,6 +58,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
   return (
     <>
       <motion.nav
+        aria-label="Navigation principale"
         className="fixed top-0 w-full z-40 border-b border-[rgba(138,158,150,0.04)] transition-colors duration-300"
         style={{
           background: scrolled ? "rgba(17,22,20,0.92)" : "rgba(17,22,20,0.6)",
@@ -50,9 +67,11 @@ export function Nav({ logoUrl, categories }: NavProps) {
       >
         <div className="max-w-[1400px] mx-auto px-4 md:px-12 py-3 flex justify-between items-center">
           <Link href="/" className="flex items-center" onClick={() => setMobileOpen(false)}>
-            <img
+            <Image
               src={logoUrl || "/logo.jpg"}
               alt="ASE TECH"
+              width={120}
+              height={32}
               className="h-7 md:h-8 w-auto brightness-0 invert"
             />
           </Link>
@@ -71,12 +90,18 @@ export function Nav({ logoUrl, categories }: NavProps) {
           </div>
 
           <div className="flex items-center gap-1">
-            <button className="p-2 rounded-[10px] text-text-muted hover:bg-surface-3 hover:text-text-primary transition-all duration-200 hidden md:flex">
+            <button
+              aria-label="Rechercher"
+              className="p-2 rounded-[10px] text-text-muted hover:bg-surface-3 hover:text-text-primary transition-all duration-200 hidden md:flex"
+            >
               <MagnifyingGlass size={20} />
             </button>
 
             {/* Mobile burger */}
             <button
+              aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
               className="p-2 rounded-[10px] text-text-muted hover:bg-surface-3 hover:text-text-primary transition-all duration-200 md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
@@ -90,6 +115,10 @@ export function Nav({ logoUrl, categories }: NavProps) {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu de navigation"
             className="fixed inset-0 z-30 bg-surface-0/98 backdrop-blur-xl pt-20 px-6 md:hidden"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

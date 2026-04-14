@@ -5,17 +5,11 @@ import { useRouter } from "next/navigation";
 import { FloppyDisk } from "@phosphor-icons/react";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { createCategory, updateCategory } from "@/lib/actions/categories";
+import { generateSlug } from "@/lib/utils";
 import type { Category } from "@/lib/types";
 
 interface CategoryFormProps {
   category?: Category;
-}
-
-function slugify(text: string): string {
-  return text
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-zA-Z0-9-]/g, "");
 }
 
 export function CategoryForm({ category }: CategoryFormProps) {
@@ -27,15 +21,13 @@ export function CategoryForm({ category }: CategoryFormProps) {
   const [image, setImage] = useState(category?.image ?? "");
   const [description, setDescription] = useState(category?.description ?? "");
   const [badge, setBadge] = useState(category?.badge ?? "");
-  const [visibleOnLanding, setVisibleOnLanding] = useState(
-    category?.visible_on_landing ?? true
-  );
+  const [visibleOnLanding, setVisibleOnLanding] = useState(category?.visible_on_landing ?? true);
   const [sortOrder, setSortOrder] = useState(category?.sort_order ?? 0);
 
   const handleNameChange = (val: string) => {
     setName(val);
     if (!category) {
-      setSlug(slugify(val));
+      setSlug(generateSlug(val));
     }
   };
 
@@ -61,8 +53,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
       }
 
       router.push("/admin/categories");
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Erreur lors de la sauvegarde");
     } finally {
       setSaving(false);

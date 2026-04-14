@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { PencilSimple, Trash } from "@phosphor-icons/react";
 import type { Product } from "@/lib/types";
@@ -12,8 +13,11 @@ interface ProductTableProps {
 
 export function ProductTable({ products }: ProductTableProps) {
   const handleDelete = async (id: string) => {
-    if (confirm("Etes-vous sur de vouloir supprimer ce produit ?")) {
+    if (!confirm("Etes-vous sur de vouloir supprimer ce produit ?")) return;
+    try {
       await deleteProduct(id);
+    } catch {
+      alert("Erreur lors de la suppression");
     }
   };
 
@@ -32,9 +36,7 @@ export function ProductTable({ products }: ProductTableProps) {
           <tr className="border-b border-admin-border">
             <th className="px-4 py-3 font-medium text-text-muted">Image</th>
             <th className="px-4 py-3 font-medium text-text-muted">Produit</th>
-            <th className="px-4 py-3 font-medium text-text-muted">
-              Categorie
-            </th>
+            <th className="px-4 py-3 font-medium text-text-muted">Categorie</th>
             <th className="px-4 py-3 font-medium text-text-muted">Prix</th>
             <th className="px-4 py-3 font-medium text-text-muted">Etat</th>
             <th className="px-4 py-3 font-medium text-text-muted">Stock</th>
@@ -43,15 +45,14 @@ export function ProductTable({ products }: ProductTableProps) {
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr
-              key={product.id}
-              className="border-b border-admin-border last:border-b-0"
-            >
+            <tr key={product.id} className="border-b border-admin-border last:border-b-0">
               <td className="px-4 py-3">
                 {product.images[0] ? (
-                  <img
+                  <Image
                     src={product.images[0]}
                     alt={product.name}
+                    width={40}
+                    height={40}
                     className="h-10 w-10 rounded-lg border border-admin-border object-cover"
                   />
                 ) : (
@@ -60,13 +61,9 @@ export function ProductTable({ products }: ProductTableProps) {
                   </div>
                 )}
               </td>
-              <td className="px-4 py-3 font-medium text-surface-0">
-                {product.name}
-              </td>
+              <td className="px-4 py-3 font-medium text-surface-0">{product.name}</td>
               <td className="px-4 py-3 text-text-muted">{product.category}</td>
-              <td className="px-4 py-3 text-surface-0">
-                {formatPrice(product.price)} Ar
-              </td>
+              <td className="px-4 py-3 text-surface-0">{formatPrice(product.price)} Ar</td>
               <td className="px-4 py-3 text-text-muted">
                 {CONDITION_LABELS[product.condition] ?? product.condition}
               </td>

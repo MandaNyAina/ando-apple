@@ -20,7 +20,7 @@ export function formatPrice(price: number, currency?: string): string {
 
 export function calculateSavings(
   price: number,
-  originalPrice: number | null
+  originalPrice: number | null,
 ): { amount: number; percentage: number } | null {
   if (!originalPrice || originalPrice <= price) return null;
   const amount = originalPrice - price;

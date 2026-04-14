@@ -44,16 +44,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const supabase = await createClient();
 
   const [{ data: productData }, { data: settingData }, logoUrl, categories] = await Promise.all([
-    supabase
-      .from("products")
-      .select("*")
-      .eq("slug", slug)
-      .single(),
-    supabase
-      .from("settings")
-      .select("value")
-      .eq("key", "whatsapp_number")
-      .single(),
+    supabase.from("products").select("*").eq("slug", slug).single(),
+    supabase.from("settings").select("value").eq("key", "whatsapp_number").single(),
     getLogoUrl(),
     getVisibleCategories(),
   ]);

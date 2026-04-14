@@ -1,8 +1,12 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import Image from "next/image";
 import { UploadSimple, X } from "@phosphor-icons/react";
 import { createClient } from "@/lib/supabase/client";
+
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
 
 interface ImageUploaderProps {
   images: string[];
@@ -10,11 +14,7 @@ interface ImageUploaderProps {
   bucket?: string;
 }
 
-export function ImageUploader({
-  images,
-  onChange,
-  bucket = "product-images",
-}: ImageUploaderProps) {
+export function ImageUploader({ images, onChange, bucket = "product-images" }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState("");
@@ -28,12 +28,20 @@ export function ImageUploader({
       const newUrls: string[] = [];
 
       for (const file of Array.from(files)) {
-        const ext = file.name.split(".").pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+        if (!ALLOWED_TYPES.includes(file.type)) {
+          setError("Type de fichier non autorisé. Utilisez JPEG, PNG, WebP ou GIF.");
+          continue;
+        }
+        if (file.size > MAX_SIZE_BYTES) {
+          setError("Fichier trop volumineux (max 5 Mo).");
+          continue;
+        }
 
-        const { error: uploadError } = await supabase.storage
-          .from(bucket)
-          .upload(fileName, file);
+        const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
+        const safeExt = ["jpg", "jpeg", "png", "webp", "gif"].includes(ext) ? ext : "jpg";
+        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${safeExt}`;
+
+        const { error: uploadError } = await supabase.storage.from(bucket).upload(fileName, file);
 
         if (uploadError) {
           setError(`Erreur upload: ${uploadError.message}`);
@@ -51,7 +59,7 @@ export function ImageUploader({
       setUploading(false);
       if (inputRef.current) inputRef.current.value = "";
     },
-    [images, onChange, supabase, bucket]
+    [images, onChange, supabase, bucket],
   );
 
   const handleDrop = useCallback(
@@ -62,7 +70,7 @@ export function ImageUploader({
         uploadFiles(e.dataTransfer.files);
       }
     },
-    [uploadFiles]
+    [uploadFiles],
   );
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,32 +104,31 @@ export function ImageUploader({
           className={uploading ? "animate-pulse text-admin-success" : "text-text-muted"}
         />
         <p className="mt-2 text-sm text-text-muted">
-          {uploading
-            ? "Upload en cours..."
-            : "Glissez vos images ici ou cliquez"}
+          {uploading ? "Upload en cours..." : "Glissez vos images ici ou cliquez"}
         </p>
+        <p className="text-xs text-text-muted mt-1">JPEG, PNG, WebP, GIF — max 5 Mo</p>
         <input
           ref={inputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp,image/gif"
           multiple
           className="hidden"
           onChange={handleFileChange}
         />
       </div>
 
-      {error && (
-        <p className="text-xs text-admin-warning">{error}</p>
-      )}
+      {error && <p className="text-xs text-admin-warning">{error}</p>}
 
       {images.length > 0 && (
         <div className="flex flex-wrap gap-3">
           {images.map((url, index) => (
-            <div key={index} className="group relative w-20 h-20">
-              <img
+            <div key={url} className="group relative w-20 h-20">
+              <Image
                 src={url}
                 alt={`Image ${index + 1}`}
-                className="h-full w-full rounded-lg border border-admin-border object-cover"
+                fill
+                sizes="80px"
+                className="rounded-lg border border-admin-border object-cover"
               />
               <button
                 type="button"
@@ -129,7 +136,8 @@ export function ImageUploader({
                   e.stopPropagation();
                   removeImage(index);
                 }}
-                className="absolute -right-2 -top-2 rounded-full bg-admin-warning p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                aria-label={`Supprimer l'image ${index + 1}`}
+                className="absolute -right-2 -top-2 rounded-full bg-admin-warning p-1 text-white opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
               >
                 <X size={12} weight="bold" />
               </button>

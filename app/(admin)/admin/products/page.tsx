@@ -20,9 +20,7 @@ export default async function AdminProductsPage() {
           <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
             Produits
           </h1>
-          <p className="mt-1 text-sm text-text-muted">
-            Gerez votre catalogue de produits
-          </p>
+          <p className="mt-1 text-sm text-text-muted">Gerez votre catalogue de produits</p>
         </div>
         <Link
           href="/admin/products/new"

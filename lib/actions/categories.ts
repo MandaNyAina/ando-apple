@@ -3,6 +3,15 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
+async function requireAuth() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Non autorisé");
+  return supabase;
+}
+
 interface CategoryInput {
   name: string;
   slug: string;
@@ -14,7 +23,7 @@ interface CategoryInput {
 }
 
 export async function createCategory(input: CategoryInput) {
-  const supabase = await createClient();
+  const supabase = await requireAuth();
 
   const { error } = await supabase.from("categories").insert({
     name: input.name,
@@ -27,15 +36,17 @@ export async function createCategory(input: CategoryInput) {
   });
 
   if (error) {
-    throw new Error(error.message);
+    console.error("[createCategory]", error);
+    throw new Error("Erreur lors de la création de la catégorie.");
   }
 
   revalidatePath("/admin/categories");
   revalidatePath("/");
+  revalidatePath("/products");
 }
 
 export async function updateCategory(id: string, input: CategoryInput) {
-  const supabase = await createClient();
+  const supabase = await requireAuth();
 
   const { error } = await supabase
     .from("categories")
@@ -52,22 +63,26 @@ export async function updateCategory(id: string, input: CategoryInput) {
     .eq("id", id);
 
   if (error) {
-    throw new Error(error.message);
+    console.error("[updateCategory]", error);
+    throw new Error("Erreur lors de la mise à jour de la catégorie.");
   }
 
   revalidatePath("/admin/categories");
   revalidatePath("/");
+  revalidatePath("/products");
 }
 
 export async function deleteCategory(id: string) {
-  const supabase = await createClient();
+  const supabase = await requireAuth();
 
   const { error } = await supabase.from("categories").delete().eq("id", id);
 
   if (error) {
-    throw new Error(error.message);
+    console.error("[deleteCategory]", error);
+    throw new Error("Erreur lors de la suppression de la catégorie.");
   }
 
   revalidatePath("/admin/categories");
   revalidatePath("/");
+  revalidatePath("/products");
 }

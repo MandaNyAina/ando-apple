@@ -38,9 +38,7 @@ export default function AdminLoginPage() {
           <h1 className="font-headline text-2xl font-bold tracking-tight text-surface-0">
             ASE TECH
           </h1>
-          <p className="mt-2 text-sm text-text-muted">
-            Connexion a l&apos;administration
-          </p>
+          <p className="mt-2 text-sm text-text-muted">Connexion a l&apos;administration</p>
         </div>
 
         <form
@@ -55,10 +53,7 @@ export default function AdminLoginPage() {
 
           <div className="space-y-4">
             <div>
-              <label
-                htmlFor="email"
-                className="mb-1.5 block text-sm font-medium text-surface-0"
-              >
+              <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-surface-0">
                 Email
               </label>
               <input
@@ -73,10 +68,7 @@ export default function AdminLoginPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="mb-1.5 block text-sm font-medium text-surface-0"
-              >
+              <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-surface-0">
                 Mot de passe
               </label>
               <input
