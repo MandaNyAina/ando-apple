@@ -69,6 +69,12 @@ export interface CTAContent {
   button_text: string;
 }
 
+export interface BentoCategory {
+  title: string;
+  image: string;
+  href: string;
+}
+
 export interface Setting {
   id: string;
   key: string;
