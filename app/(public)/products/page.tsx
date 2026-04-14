@@ -56,7 +56,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           </div>
 
           <Suspense fallback={null}>
-            <ProductFilters categories={allCategories} />
+            <ProductFilters categories={visibleCategories} />
           </Suspense>
 
           {products.length > 0 ? (
