@@ -81,3 +81,19 @@ export interface Setting {
   value: string;
   updated_at: string;
 }
+
+export interface Page {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  meta_title: string | null;
+  meta_description: string | null;
+  cta_text: string | null;
+  cta_link: string | null;
+  published: boolean;
+  show_in_footer: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}

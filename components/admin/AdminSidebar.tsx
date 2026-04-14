@@ -6,6 +6,7 @@ import {
   SquaresFour,
   Devices,
   PencilLine,
+  FileText,
   GearSix,
   SignOut,
 } from "@phosphor-icons/react";
@@ -15,6 +16,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: SquaresFour },
   { href: "/admin/products", label: "Produits", icon: Devices },
   { href: "/admin/content", label: "Contenu Landing", icon: PencilLine },
+  { href: "/admin/pages", label: "Pages", icon: FileText },
   { href: "/admin/settings", label: "Parametres", icon: GearSix },
 ];
 
