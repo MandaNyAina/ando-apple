@@ -38,9 +38,9 @@ export function Hero({ content, featuredProduct }: HeroProps) {
         {/* Left — Text */}
         <motion.div
           className="flex flex-col gap-6"
-          initial={{ opacity: 0, x: -40 }}
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "spring", stiffness: 80, damping: 20 }}
+          transition={{ type: "spring", stiffness: 200, damping: 24 }}
         >
           <span className="inline-block w-fit px-3 py-1.5 rounded-[8px] bg-accent/10 border border-accent/[0.08] text-[11px] font-semibold text-accent-light uppercase tracking-widest">
             Reconditionné premium
@@ -67,9 +67,9 @@ export function Hero({ content, featuredProduct }: HeroProps) {
         {/* Right — Showcase card */}
         <motion.div
           className="relative w-full max-w-[300px] lg:max-w-[380px] mx-auto lg:mx-0"
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 24, delay: 0.1 }}
         >
           {featuredProduct ? (
             <Link href={`/products/${featuredProduct.slug}`} className="block group">
