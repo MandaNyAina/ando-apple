@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { createClient } from "@/lib/supabase/server";
 import { ProductTable } from "@/components/admin/ProductTable";
 import type { Product } from "@/lib/types";
@@ -26,7 +26,7 @@ export default async function AdminProductsPage() {
           href="/admin/products/new"
           className="flex items-center gap-2 rounded-lg bg-admin-success px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-admin-success/90"
         >
-          <Plus size={18} weight="bold" />
+          <PlusIcon size={18} weight="bold" />
           Ajouter un produit
         </Link>
       </div>

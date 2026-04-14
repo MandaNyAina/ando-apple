@@ -3,23 +3,23 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  SquaresFour,
-  Devices,
-  FolderSimple,
-  PencilLine,
-  FileText,
-  GearSix,
-  SignOut,
+  SquaresFourIcon,
+  DevicesIcon,
+  FolderSimpleIcon,
+  PencilLineIcon,
+  FileTextIcon,
+  GearSixIcon,
+  SignOutIcon,
 } from "@phosphor-icons/react";
 import { createClient } from "@/lib/supabase/client";
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: SquaresFour },
-  { href: "/admin/products", label: "Produits", icon: Devices },
-  { href: "/admin/categories", label: "Categories", icon: FolderSimple },
-  { href: "/admin/content", label: "Contenu Landing", icon: PencilLine },
-  { href: "/admin/pages", label: "Pages", icon: FileText },
-  { href: "/admin/settings", label: "Parametres", icon: GearSix },
+  { href: "/admin", label: "Dashboard", icon: SquaresFourIcon },
+  { href: "/admin/products", label: "Produits", icon: DevicesIcon },
+  { href: "/admin/categories", label: "Categories", icon: FolderSimpleIcon },
+  { href: "/admin/content", label: "Contenu Landing", icon: PencilLineIcon },
+  { href: "/admin/pages", label: "Pages", icon: FileTextIcon },
+  { href: "/admin/settings", label: "Parametres", icon: GearSixIcon },
 ];
 
 export function AdminSidebar() {
@@ -66,7 +66,7 @@ export function AdminSidebar() {
           onClick={handleLogout}
           className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-admin-warning transition-colors hover:bg-admin-bg"
         >
-          <SignOut size={20} />
+          <SignOutIcon size={20} />
           Deconnexion
         </button>
       </div>

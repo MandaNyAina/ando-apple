@@ -38,6 +38,11 @@ export async function createProduct(formData: FormData) {
   const description = (formData.get("description") as string) || null;
   const in_stock = formData.get("in_stock") === "true";
   const featured = formData.get("featured") === "true";
+  const warrantyRaw = formData.get("warranty_months") as string;
+  const warranty_months =
+    warrantyRaw && Number.isFinite(parseInt(warrantyRaw)) && parseInt(warrantyRaw) > 0
+      ? parseInt(warrantyRaw)
+      : null;
   const images = parseJsonSafe<string[]>((formData.get("images") as string) || "[]", []);
   const specs = parseJsonSafe<Record<string, string>>(
     (formData.get("specs") as string) || "{}",
@@ -55,6 +60,7 @@ export async function createProduct(formData: FormData) {
     description,
     in_stock,
     featured,
+    warranty_months,
     images,
     specs,
   });
@@ -85,6 +91,11 @@ export async function updateProduct(id: string, formData: FormData) {
   const description = (formData.get("description") as string) || null;
   const in_stock = formData.get("in_stock") === "true";
   const featured = formData.get("featured") === "true";
+  const warrantyRaw = formData.get("warranty_months") as string;
+  const warranty_months =
+    warrantyRaw && Number.isFinite(parseInt(warrantyRaw)) && parseInt(warrantyRaw) > 0
+      ? parseInt(warrantyRaw)
+      : null;
   const images = parseJsonSafe<string[]>((formData.get("images") as string) || "[]", []);
   const specs = parseJsonSafe<Record<string, string>>(
     (formData.get("specs") as string) || "{}",
@@ -104,6 +115,7 @@ export async function updateProduct(id: string, formData: FormData) {
       description,
       in_stock,
       featured,
+      warranty_months,
       images,
       specs,
     })

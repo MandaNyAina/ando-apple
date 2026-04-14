@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { MagnifyingGlass, List, X } from "@phosphor-icons/react";
+import { MagnifyingGlassIcon, ListIcon, X } from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Category } from "@/lib/types";
@@ -80,7 +80,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
     <>
       <motion.nav
         aria-label="Navigation principale"
-        className="fixed top-0 w-full z-40 border-b border-[rgba(138,158,150,0.04)] transition-colors duration-300"
+        className="fixed top-0 w-full z-40 border-b border-accent/[0.04] transition-colors duration-300"
         style={{
           background: scrolled ? "rgba(17,22,20,0.92)" : "rgba(17,22,20,0.6)",
           backdropFilter: "blur(40px) saturate(1.4)",
@@ -97,7 +97,6 @@ export function Nav({ logoUrl, categories }: NavProps) {
             />
           </Link>
 
-          {/* Desktop links */}
           <div className="hidden md:flex gap-8">
             {navLinks.map((link) => (
               <Link
@@ -119,10 +118,9 @@ export function Nav({ logoUrl, categories }: NavProps) {
               }}
               className="p-2 rounded-[10px] text-text-muted hover:bg-surface-3 hover:text-text-primary transition-all duration-200"
             >
-              <MagnifyingGlass size={20} />
+              <MagnifyingGlassIcon size={20} />
             </button>
 
-            {/* Mobile burger */}
             <button
               aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={mobileOpen}
@@ -130,13 +128,12 @@ export function Nav({ logoUrl, categories }: NavProps) {
               className="p-2 rounded-[10px] text-text-muted hover:bg-surface-3 hover:text-text-primary transition-all duration-200 md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {mobileOpen ? <X size={22} /> : <List size={22} />}
+              {mobileOpen ? <X size={22} /> : <ListIcon size={22} />}
             </button>
           </div>
         </div>
       </motion.nav>
 
-      {/* Search overlay */}
       <AnimatePresence>
         {searchOpen && (
           <motion.div
@@ -154,7 +151,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
           >
             <div className="w-full max-w-[600px]">
               <form onSubmit={handleSearch} className="relative">
-                <MagnifyingGlass
+                <MagnifyingGlassIcon
                   size={22}
                   className="absolute left-5 top-1/2 -translate-y-1/2 text-text-muted"
                 />
@@ -164,7 +161,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Rechercher un produit..."
-                  className="w-full rounded-[14px] border border-[rgba(138,158,150,0.12)] bg-surface-1 pl-14 pr-12 py-4 text-lg text-text-primary placeholder:text-text-muted focus:border-accent/30 focus:outline-none"
+                  className="w-full rounded-[14px] border border-accent/[0.12] bg-surface-1 pl-14 pr-12 py-4 text-lg text-text-primary placeholder:text-text-muted focus:border-accent/30 focus:outline-none"
                 />
                 <button
                   type="button"
@@ -183,7 +180,6 @@ export function Nav({ logoUrl, categories }: NavProps) {
         )}
       </AnimatePresence>
 
-      {/* Mobile menu overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -203,7 +199,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="font-headline text-2xl font-bold text-text-primary py-3 border-b border-[rgba(138,158,150,0.06)] hover:text-accent-light transition-colors"
+                  className="font-headline text-2xl font-bold text-text-primary py-3 border-b border-accent/[0.06] hover:text-accent-light transition-colors"
                 >
                   {link.label}
                 </Link>

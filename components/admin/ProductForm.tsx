@@ -140,6 +140,20 @@ export function ProductForm({ product, action }: ProductFormProps) {
             </select>
           </div>
 
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-text-muted">
+              Garantie (mois)
+            </label>
+            <input
+              name="warranty_months"
+              type="number"
+              min="0"
+              defaultValue={product?.warranty_months ?? ""}
+              className="w-full rounded-lg border border-admin-border bg-admin-bg px-4 py-2.5 text-sm text-surface-0 placeholder:text-text-muted focus:border-admin-success focus:outline-none"
+              placeholder="24"
+            />
+          </div>
+
           <div className="sm:col-span-2">
             <label className="mb-1.5 block text-sm font-medium text-text-muted">Description</label>
             <textarea

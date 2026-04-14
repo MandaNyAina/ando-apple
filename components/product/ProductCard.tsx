@@ -24,7 +24,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link href={`/products/${product.slug}`}>
       <motion.article
-        className="group rounded-[16px] bg-surface-1 border border-[rgba(138,158,150,0.06)] overflow-hidden cursor-pointer"
+        className="group rounded-[16px] bg-surface-1 border border-accent/[0.06] overflow-hidden cursor-pointer"
         whileHover={{ y: -4 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
       >

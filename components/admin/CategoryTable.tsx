@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PencilSimple, TrashSimple } from "@phosphor-icons/react";
+import { PencilSimpleIcon, TrashSimpleIcon } from "@phosphor-icons/react";
 import { deleteCategory } from "@/lib/actions/categories";
 import type { Category } from "@/lib/types";
 
@@ -73,14 +73,14 @@ export function CategoryTable({ categories }: CategoryTableProps) {
                     href={`/admin/categories/${cat.id}/edit`}
                     className="rounded-lg p-1.5 text-text-muted hover:bg-admin-bg hover:text-surface-0 transition-colors"
                   >
-                    <PencilSimple size={18} />
+                    <PencilSimpleIcon size={18} />
                   </Link>
                   <button
                     onClick={() => handleDelete(cat.id)}
                     disabled={deleting === cat.id}
                     className="rounded-lg p-1.5 text-text-muted hover:bg-admin-warning/10 hover:text-admin-warning transition-colors disabled:opacity-50"
                   >
-                    <TrashSimple size={18} />
+                    <TrashSimpleIcon size={18} />
                   </button>
                 </div>
               </td>

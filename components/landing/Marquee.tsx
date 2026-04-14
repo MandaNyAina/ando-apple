@@ -13,7 +13,7 @@ export function Marquee() {
   const items = [...TRUST_POINTS, ...TRUST_POINTS];
 
   return (
-    <section className="py-6 border-y border-[rgba(138,158,150,0.06)] overflow-hidden bg-surface-1 group-marquee">
+    <section className="py-6 border-y border-accent/[0.06] overflow-hidden bg-surface-1 group-marquee">
       <div className="flex animate-marquee whitespace-nowrap">
         {items.map((item, i) => (
           <span

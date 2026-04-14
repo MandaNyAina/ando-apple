@@ -55,7 +55,7 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
               className={`relative w-20 h-20 flex-shrink-0 rounded-[10px] overflow-hidden border-2 transition-colors duration-200 cursor-pointer ${
                 i === selected
                   ? "border-accent"
-                  : "border-transparent hover:border-[rgba(138,158,150,0.2)]"
+                  : "border-transparent hover:border-accent/20"
               }`}
             >
               <Image

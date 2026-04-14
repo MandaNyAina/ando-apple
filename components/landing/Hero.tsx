@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { CONDITION_LABELS, formatPrice } from "@/lib/utils";
-import { ArrowRight } from "@phosphor-icons/react";
+import { ArrowRightIcon } from "@phosphor-icons/react";
 import type { HeroContent, Product } from "@/lib/types";
 
 interface HeroProps {
@@ -20,7 +20,6 @@ export function Hero({ content, featuredProduct }: HeroProps) {
 
   return (
     <section className="relative min-h-[100dvh] flex items-center overflow-hidden">
-      {/* Background visual treatment */}
       {content.background_image ? (
         <div className="absolute inset-0">
           <Image
@@ -35,12 +34,11 @@ export function Hero({ content, featuredProduct }: HeroProps) {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] rounded-full bg-accent/[0.04] blur-[100px]" />
           <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-accent/[0.03] blur-[80px]" />
-          <div className="absolute top-[30%] left-[20%] w-[300px] h-[300px] rounded-full bg-[rgba(138,158,150,0.03)] blur-[60px]" />
+          <div className="absolute top-[30%] left-[20%] w-[300px] h-[300px] rounded-full bg-accent/[0.03] blur-[60px]" />
         </div>
       )}
 
       <div className="max-w-[1400px] mx-auto px-4 md:px-12 w-full grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 lg:gap-20 items-center pt-24 md:pt-28 pb-12 md:pb-16 relative z-10">
-        {/* Left — Text */}
         <motion.div
           className="flex flex-col gap-6"
           initial={{ opacity: 0, x: -20 }}
@@ -67,7 +65,6 @@ export function Hero({ content, featuredProduct }: HeroProps) {
           </div>
         </motion.div>
 
-        {/* Right — Showcase card */}
         <motion.div
           className="relative w-full max-w-[300px] lg:max-w-[380px] mx-auto lg:mx-0"
           initial={{ opacity: 0, y: 20 }}
@@ -76,7 +73,7 @@ export function Hero({ content, featuredProduct }: HeroProps) {
         >
           {featuredProduct ? (
             <Link href={`/products/${featuredProduct.slug}`} className="block group">
-              <div className="rounded-[20px] bg-surface-1 border border-[rgba(138,158,150,0.06)] group-hover:border-accent/20 p-5 flex flex-col gap-4 transition-colors duration-300">
+              <div className="rounded-[20px] bg-surface-1 border border-accent/[0.06] group-hover:border-accent/20 p-5 flex flex-col gap-4 transition-colors duration-300">
                 <div className="relative aspect-square rounded-[14px] bg-surface-2 overflow-hidden">
                   {featuredProduct.images[0] && (
                     <Image
@@ -99,7 +96,7 @@ export function Hero({ content, featuredProduct }: HeroProps) {
                     <span className="font-body text-xl font-bold text-accent-light">
                       {formatPrice(featuredProduct.price)} Ar
                     </span>
-                    <ArrowRight
+                    <ArrowRightIcon
                       size={18}
                       className="text-text-muted group-hover:text-accent-light transition-colors"
                     />
@@ -108,7 +105,7 @@ export function Hero({ content, featuredProduct }: HeroProps) {
               </div>
             </Link>
           ) : (
-            <div className="rounded-[20px] bg-surface-1 border border-[rgba(138,158,150,0.06)] p-8 flex flex-col items-center justify-center gap-4 aspect-square">
+            <div className="rounded-[20px] bg-surface-1 border border-accent/[0.06] p-8 flex flex-col items-center justify-center gap-4 aspect-square">
               <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
                 <span className="text-3xl font-bold text-accent">A</span>
               </div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FloppyDisk } from "@phosphor-icons/react";
+import { FloppyDiskIcon } from "@phosphor-icons/react";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { createCategory, updateCategory } from "@/lib/actions/categories";
 import { generateSlug } from "@/lib/utils";
@@ -144,7 +144,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
             disabled={saving}
             className="inline-flex items-center gap-2 rounded-[14px] bg-admin-success px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-admin-success/90 disabled:opacity-50"
           >
-            <FloppyDisk size={18} weight="bold" />
+            <FloppyDiskIcon size={18} weight="bold" />
             {saving ? "Enregistrement..." : category ? "Mettre a jour" : "Creer"}
           </button>
         </div>

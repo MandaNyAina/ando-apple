@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { PencilSimpleIcon, TrashIcon } from "@phosphor-icons/react";
 import type { Page } from "@/lib/types";
 import { deletePage } from "@/lib/actions/pages";
 
@@ -69,13 +69,13 @@ export function PageTable({ pages }: PageTableProps) {
                     href={`/admin/pages/${page.id}/edit`}
                     className="rounded-lg p-2 text-text-muted transition-colors hover:bg-admin-bg hover:text-admin-success"
                   >
-                    <PencilSimple size={18} />
+                    <PencilSimpleIcon size={18} />
                   </Link>
                   <button
                     onClick={() => handleDelete(page.id)}
                     className="rounded-lg p-2 text-text-muted transition-colors hover:bg-admin-warning/10 hover:text-admin-warning"
                   >
-                    <Trash size={18} />
+                    <TrashIcon size={18} />
                   </button>
                 </div>
               </td>

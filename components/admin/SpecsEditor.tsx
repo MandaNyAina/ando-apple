@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Trash } from "@phosphor-icons/react";
+import { PlusIcon, TrashIcon } from "@phosphor-icons/react";
 
 interface SpecsEditorProps {
   specs: Record<string, string>;
@@ -71,7 +71,7 @@ export function SpecsEditor({ specs, onChange }: SpecsEditorProps) {
             onClick={() => removeRow(index)}
             className="rounded-lg p-2 text-admin-warning transition-colors hover:bg-admin-warning/10"
           >
-            <Trash size={18} />
+            <TrashIcon size={18} />
           </button>
         </div>
       ))}
@@ -81,7 +81,7 @@ export function SpecsEditor({ specs, onChange }: SpecsEditorProps) {
         onClick={addRow}
         className="flex items-center gap-2 rounded-lg border border-dashed border-admin-border px-4 py-2 text-sm text-text-muted transition-colors hover:border-admin-success hover:text-admin-success"
       >
-        <Plus size={16} />
+        <PlusIcon size={16} />
         Ajouter une specification
       </button>
     </div>

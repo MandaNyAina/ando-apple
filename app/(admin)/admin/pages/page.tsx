@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import { PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { createClient } from "@/lib/supabase/server";
 import { PageTable } from "@/components/admin/PageTable";
 import type { Page } from "@/lib/types";
@@ -24,7 +24,7 @@ export default async function AdminPagesPage() {
           href="/admin/pages/new"
           className="flex items-center gap-2 rounded-lg bg-admin-success px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-admin-success/90"
         >
-          <Plus size={18} weight="bold" />
+          <PlusIcon size={18} weight="bold" />
           Ajouter une page
         </Link>
       </div>

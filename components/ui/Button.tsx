@@ -14,7 +14,7 @@ export function Button({ variant = "solid", children, className = "", ...props }
   const variants = {
     solid: "bg-accent text-surface-0 hover:bg-accent-light px-8 py-4",
     outline:
-      "border border-[rgba(138,158,150,0.15)] text-text-primary hover:border-[rgba(138,158,150,0.3)] hover:bg-surface-2 px-8 py-4",
+      "border border-accent/15 text-text-primary hover:border-accent/30 hover:bg-surface-2 px-8 py-4",
   };
 
   return (

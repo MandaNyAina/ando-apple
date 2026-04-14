@@ -2,21 +2,21 @@
 
 import Image from "next/image";
 import {
-  ShieldCheck,
-  Tag,
-  Star,
-  Headset,
-  MagnifyingGlass,
-  CurrencyCircleDollar,
-  Recycle,
-  Certificate,
-  Heart,
-  Lightning,
-  CheckCircle,
-  Handshake,
-  Trophy,
-  Leaf,
-  Lock,
+  ShieldCheckIcon,
+  TagIcon,
+  StarIcon,
+  HeadsetIcon,
+  MagnifyingGlassIcon,
+  CurrencyCircleDollarIcon,
+  RecycleIcon,
+  CertificateIcon,
+  HeartIcon,
+  LightningIcon,
+  CheckCircleIcon,
+  HandshakeIcon,
+  TrophyIcon,
+  LeafIcon,
+  LockIcon,
   type Icon as PhosphorIcon,
 } from "@phosphor-icons/react";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
@@ -27,25 +27,25 @@ interface TrustValuesProps {
 }
 
 const ICON_MAP: Record<string, PhosphorIcon> = {
-  ShieldCheck,
-  Tag,
-  Star,
-  Headset,
-  MagnifyingGlass,
-  CurrencyCircleDollar,
-  Recycle,
-  Certificate,
-  Heart,
-  Lightning,
-  CheckCircle,
-  Handshake,
-  Trophy,
-  Leaf,
-  Lock,
+  ShieldCheckIcon,
+  TagIcon,
+  StarIcon,
+  HeadsetIcon,
+  MagnifyingGlassIcon,
+  CurrencyCircleDollarIcon,
+  RecycleIcon,
+  CertificateIcon,
+  HeartIcon,
+  LightningIcon,
+  CheckCircleIcon,
+  HandshakeIcon,
+  TrophyIcon,
+  LeafIcon,
+  LockIcon,
 };
 
 function getPhosphorIcon(iconName: string): PhosphorIcon {
-  return ICON_MAP[iconName] ?? Star;
+  return ICON_MAP[iconName] ?? StarIcon;
 }
 
 export function TrustValues({ content }: TrustValuesProps) {
@@ -71,7 +71,6 @@ export function TrustValues({ content }: TrustValuesProps) {
                 <div
                   className={`flex flex-col ${isReversed ? "md:flex-row-reverse" : "md:flex-row"} gap-10 md:gap-16 items-center`}
                 >
-                  {/* Text side */}
                   <div className="flex-1 flex flex-col gap-4">
                     <span className="font-headline text-5xl md:text-8xl font-extrabold text-surface-3">
                       {number}
@@ -87,9 +86,8 @@ export function TrustValues({ content }: TrustValuesProps) {
                     </p>
                   </div>
 
-                  {/* Image side */}
                   <div className="flex-1 w-full">
-                    <div className="relative aspect-[4/3] rounded-[16px] bg-surface-1 border border-[rgba(138,158,150,0.06)] overflow-hidden">
+                    <div className="relative aspect-[4/3] rounded-[16px] bg-surface-1 border border-accent/[0.06] overflow-hidden">
                       {item.image ? (
                         <Image src={item.image} alt={item.title} fill className="object-cover" />
                       ) : (

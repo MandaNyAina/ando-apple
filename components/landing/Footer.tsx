@@ -16,12 +16,10 @@ export async function Footer() {
     if (pages && pages.length > 0) {
       footerLinks = pages.map((p) => ({ href: `/${p.slug}`, label: p.title }));
     }
-  } catch {
-    // Fallback if pages table doesn't exist yet
-  }
+  } catch {}
 
   return (
-    <footer className="bg-surface-0 px-6 md:px-12 py-10 border-t border-[rgba(138,158,150,0.04)]">
+    <footer className="bg-surface-0 px-6 md:px-12 py-10 border-t border-accent/[0.04]">
       <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <span className="font-headline font-bold text-text-muted text-sm tracking-wide">
           ASE TECH
@@ -37,7 +35,7 @@ export async function Footer() {
             </Link>
           ))}
         </div>
-        <span className="text-[11px] text-[rgba(138,158,150,0.3)]">
+        <span className="text-[11px] text-accent/30">
           {new Date().getFullYear()} ASE Tech
         </span>
       </div>

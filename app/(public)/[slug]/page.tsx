@@ -42,7 +42,6 @@ export default async function DynamicPage({ params }: PageProps) {
 
   if (!page) notFound();
 
-  // Sanitize HTML content to prevent XSS - only allow safe tags and attributes
   const safeContent = sanitizeHtml(page.content, {
     allowedTags: [
       ...sanitizeHtml.defaults.allowedTags,
@@ -78,7 +77,6 @@ export default async function DynamicPage({ params }: PageProps) {
         <h1 className="font-headline text-3xl md:text-4xl font-extrabold tracking-[-1.5px] mb-8">
           {page.title}
         </h1>
-        {/* Content is sanitized server-side with sanitize-html above */}
         <div
           className="prose prose-invert prose-sm max-w-none text-text-secondary leading-relaxed [&_h2]:font-headline [&_h2]:text-text-primary [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:font-headline [&_h3]:text-text-primary [&_h3]:font-bold [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_li]:mb-1 [&_a]:text-accent-light [&_a]:underline"
           dangerouslySetInnerHTML={{ __html: safeContent }}

@@ -12,7 +12,6 @@ interface CTASectionProps {
 export function CTASection({ content }: CTASectionProps) {
   return (
     <section className="py-24 md:py-32 relative overflow-hidden">
-      {/* Radial gradient glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="w-[600px] h-[600px] rounded-full bg-accent/[0.06] blur-[120px]" />
       </div>

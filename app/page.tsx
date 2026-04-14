@@ -139,7 +139,6 @@ export default async function Home() {
     (contentMap.get("testimonials") as unknown as TestimonialsContent) ?? DEFAULT_TESTIMONIALS;
   const ctaContent = (contentMap.get("cta") as unknown as CTAContent) ?? DEFAULT_CTA;
 
-  // Hero product: use hero_product_id from content, or fallback to first featured
   let heroProduct: Product | null = null;
   if (heroContent.hero_product_id) {
     const { data: heroProductData } = await supabase
@@ -153,7 +152,6 @@ export default async function Home() {
     heroProduct = featuredProducts[0] ?? null;
   }
 
-  // Featured product section: use featured_product content, or fallback to a different featured product
   let secondFeaturedProduct: Product | null = null;
   if (featuredProductContent.product_id) {
     const { data: fpData } = await supabase
@@ -164,11 +162,9 @@ export default async function Home() {
     secondFeaturedProduct = fpData as Product | null;
   }
   if (!secondFeaturedProduct) {
-    // Pick a featured product that isn't the hero product
     secondFeaturedProduct = featuredProducts.find((p) => p.id !== heroProduct?.id) ?? null;
   }
 
-  // Resolve gallery items with product slugs
   const galleryRaw = contentMap.get("gallery") as unknown as GalleryContent | undefined;
   let galleryItems: { image: string; link: string }[] = [];
   if (galleryRaw?.items && galleryRaw.items.length > 0) {

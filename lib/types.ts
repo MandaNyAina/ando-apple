@@ -14,6 +14,7 @@ export interface Product {
   specs: Record<string, string>;
   images: string[];
   featured: boolean;
+  warranty_months: number | null;
   in_stock: boolean;
   sort_order: number;
   created_at: string;

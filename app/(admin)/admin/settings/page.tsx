@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FloppyDisk } from "@phosphor-icons/react";
+import { FloppyDiskIcon } from "@phosphor-icons/react";
 import { createClient } from "@/lib/supabase/client";
 import { updateSettings } from "@/lib/actions/settings";
 import { ImageUploader } from "@/components/admin/ImageUploader";
@@ -111,7 +111,7 @@ export default function AdminSettingsPage() {
             disabled={saving}
             className="inline-flex items-center gap-2 rounded-[14px] bg-admin-success px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-admin-success/90 disabled:opacity-50"
           >
-            <FloppyDisk size={18} weight="bold" />
+            <FloppyDiskIcon size={18} weight="bold" />
             {saving ? "Enregistrement..." : "Enregistrer"}
           </button>
           {saved && (

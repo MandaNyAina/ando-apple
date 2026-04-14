@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
-import { UploadSimple, X } from "@phosphor-icons/react";
+import { UploadSimpleIcon, X } from "@phosphor-icons/react";
 import { createClient } from "@/lib/supabase/client";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
@@ -99,7 +99,7 @@ export function ImageUploader({ images, onChange, bucket = "product-images" }: I
         }`}
         onClick={() => inputRef.current?.click()}
       >
-        <UploadSimple
+        <UploadSimpleIcon
           size={28}
           className={uploading ? "animate-pulse text-admin-success" : "text-text-muted"}
         />

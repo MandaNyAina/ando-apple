@@ -1,6 +1,6 @@
 "use client";
 
-import { Star } from "@phosphor-icons/react";
+import { StarIcon } from "@phosphor-icons/react";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import type { TestimonialsContent } from "@/lib/types";
 
@@ -31,11 +31,10 @@ export function Testimonials({ content }: TestimonialsProps) {
 
             return (
               <ScrollReveal key={i} delay={i * 0.08} className={i % 2 !== 0 ? "md:mt-10" : ""}>
-                <div className="rounded-[16px] bg-surface-2 border border-[rgba(138,158,150,0.06)] p-6 flex flex-col gap-4">
-                  {/* Stars */}
+                <div className="rounded-[16px] bg-surface-2 border border-accent/[0.06] p-6 flex flex-col gap-4">
                   <div className="flex gap-0.5" aria-label={`Note : ${item.rating} sur 5`}>
                     {Array.from({ length: 5 }).map((_, s) => (
-                      <Star
+                      <StarIcon
                         key={s}
                         size={16}
                         weight={s < item.rating ? "fill" : "regular"}
@@ -48,7 +47,6 @@ export function Testimonials({ content }: TestimonialsProps) {
                     &ldquo;{item.comment}&rdquo;
                   </p>
 
-                  {/* Author */}
                   <div className="flex items-center gap-3 mt-auto pt-2">
                     <div className="w-9 h-9 rounded-full bg-accent/15 flex items-center justify-center text-[11px] font-bold text-accent-light">
                       {initials}

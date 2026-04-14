@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash, FloppyDisk } from "@phosphor-icons/react";
+import { PlusIcon, TrashIcon, FloppyDiskIcon } from "@phosphor-icons/react";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { updateSiteContent } from "@/lib/actions/content";
 import type {
@@ -117,7 +117,6 @@ export function ContentEditor({
 
   return (
     <div className="space-y-8">
-      {/* Hero Section */}
       <div className={cardClass}>
         <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Hero</h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -179,7 +178,6 @@ export function ContentEditor({
         </div>
       </div>
 
-      {/* Featured Product Section */}
       <div className={cardClass}>
         <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Produit en vedette</h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
@@ -232,7 +230,6 @@ export function ContentEditor({
         </div>
       </div>
 
-      {/* Values Section */}
       <div className={cardClass}>
         <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Nos valeurs</h2>
         <div className="space-y-6">
@@ -270,7 +267,6 @@ export function ContentEditor({
         </div>
       </div>
 
-      {/* Testimonials Section */}
       <div className={cardClass}>
         <div className="mb-6 flex items-center justify-between">
           <h2 className="font-headline text-lg font-bold text-surface-0">Témoignages</h2>
@@ -279,7 +275,7 @@ export function ContentEditor({
             onClick={addTestimonial}
             className="inline-flex items-center gap-2 rounded-lg bg-admin-success px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-admin-success/90"
           >
-            <Plus size={16} weight="bold" />
+            <PlusIcon size={16} weight="bold" />
             Ajouter
           </button>
         </div>
@@ -293,7 +289,7 @@ export function ContentEditor({
                   onClick={() => removeTestimonial(index)}
                   className="rounded-lg p-1.5 text-admin-warning transition-colors hover:bg-admin-warning/10"
                 >
-                  <Trash size={18} weight="bold" />
+                  <TrashIcon size={18} weight="bold" />
                 </button>
               </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -345,7 +341,6 @@ export function ContentEditor({
         </div>
       </div>
 
-      {/* Gallery Section */}
       <div className={cardClass}>
         <div className="mb-6 flex items-center justify-between">
           <h2 className="font-headline text-lg font-bold text-surface-0">Galerie d&apos;images</h2>
@@ -354,7 +349,7 @@ export function ContentEditor({
             onClick={addGalleryItem}
             className="inline-flex items-center gap-2 rounded-lg bg-admin-success px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-admin-success/90"
           >
-            <Plus size={16} weight="bold" />
+            <PlusIcon size={16} weight="bold" />
             Ajouter
           </button>
         </div>
@@ -368,7 +363,7 @@ export function ContentEditor({
                   onClick={() => removeGalleryItem(index)}
                   className="rounded-lg p-1.5 text-admin-warning transition-colors hover:bg-admin-warning/10"
                 >
-                  <Trash size={18} weight="bold" />
+                  <TrashIcon size={18} weight="bold" />
                 </button>
               </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -406,7 +401,6 @@ export function ContentEditor({
         </div>
       </div>
 
-      {/* CTA Section */}
       <div className={cardClass}>
         <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Call to Action</h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
@@ -437,7 +431,6 @@ export function ContentEditor({
         </div>
       </div>
 
-      {/* Save Button */}
       <div className="flex items-center gap-4">
         <button
           type="button"
@@ -445,7 +438,7 @@ export function ContentEditor({
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-[14px] bg-admin-success px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-admin-success/90 disabled:opacity-50"
         >
-          <FloppyDisk size={18} weight="bold" />
+          <FloppyDiskIcon size={18} weight="bold" />
           {saving ? "Enregistrement..." : "Enregistrer tout"}
         </button>
         {saved && (

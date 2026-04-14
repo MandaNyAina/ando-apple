@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { PencilSimple, Trash } from "@phosphor-icons/react";
+import { PencilSimpleIcon, TrashIcon } from "@phosphor-icons/react";
 import type { Product } from "@/lib/types";
 import { formatPrice, CONDITION_LABELS } from "@/lib/utils";
 import { deleteProduct } from "@/lib/actions/products";
@@ -84,13 +84,13 @@ export function ProductTable({ products }: ProductTableProps) {
                     href={`/admin/products/${product.id}/edit`}
                     className="rounded-lg p-2 text-text-muted transition-colors hover:bg-admin-bg hover:text-admin-success"
                   >
-                    <PencilSimple size={18} />
+                    <PencilSimpleIcon size={18} />
                   </Link>
                   <button
                     onClick={() => handleDelete(product.id)}
                     className="rounded-lg p-2 text-text-muted transition-colors hover:bg-admin-warning/10 hover:text-admin-warning"
                   >
-                    <Trash size={18} />
+                    <TrashIcon size={18} />
                   </button>
                 </div>
               </td>

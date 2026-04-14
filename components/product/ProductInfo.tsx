@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { formatPrice, calculateSavings } from "@/lib/utils";
-import { ShieldCheck, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
+import { ShieldCheckIcon, WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Product } from "@/lib/types";
 
 interface ProductInfoProps {
@@ -19,7 +19,6 @@ export function ProductInfo({ product, whatsappNumber }: ProductInfoProps) {
 
   return (
     <div className="space-y-6">
-      {/* Breadcrumb */}
       <nav aria-label="Fil d'ariane" className="flex items-center gap-2 text-[13px] text-text-muted">
         <Link href="/" className="hover:text-text-primary transition-colors">
           Accueil
@@ -34,7 +33,6 @@ export function ProductInfo({ product, whatsappNumber }: ProductInfoProps) {
         </span>
       </nav>
 
-      {/* Title & Badge */}
       <div className="space-y-3">
         <h1 className="font-headline font-bold text-2xl md:text-3xl text-text-primary">
           {product.name}
@@ -42,7 +40,6 @@ export function ProductInfo({ product, whatsappNumber }: ProductInfoProps) {
         <Badge condition={product.condition} />
       </div>
 
-      {/* Price block */}
       <div className="space-y-1">
         <div className="flex items-baseline gap-3">
           <span className="font-headline font-bold text-3xl text-text-primary">
@@ -61,9 +58,8 @@ export function ProductInfo({ product, whatsappNumber }: ProductInfoProps) {
         )}
       </div>
 
-      {/* Specs table */}
       {product.specs && Object.keys(product.specs).length > 0 && (
-        <div className="rounded-[12px] border border-[rgba(138,158,150,0.08)] overflow-hidden">
+        <div className="rounded-[12px] border border-accent/[0.08] overflow-hidden">
           <table className="w-full text-[14px]">
             <tbody>
               {Object.entries(product.specs).map(([key, value], i) => (
@@ -77,7 +73,6 @@ export function ProductInfo({ product, whatsappNumber }: ProductInfoProps) {
         </div>
       )}
 
-      {/* Description */}
       {product.description && (
         <div className="space-y-2">
           <h2 className="font-headline font-semibold text-[16px] text-text-primary">Description</h2>
@@ -87,7 +82,6 @@ export function ProductInfo({ product, whatsappNumber }: ProductInfoProps) {
         </div>
       )}
 
-      {/* CTAs */}
       <div className="flex flex-col sm:flex-row gap-3 pt-2">
         <a
           href={whatsappLink}
@@ -95,23 +89,25 @@ export function ProductInfo({ product, whatsappNumber }: ProductInfoProps) {
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 rounded-[12px] font-body font-semibold text-[13px] bg-accent text-surface-0 hover:bg-accent-light px-8 py-4 transition-colors duration-200"
         >
-          <WhatsappLogo size={18} weight="fill" />
+          <WhatsappLogoIcon size={18} weight="fill" />
           Commander via WhatsApp
         </a>
         <Link
           href="/contact"
-          className="inline-flex items-center justify-center gap-2 rounded-[12px] font-body font-semibold text-[13px] border border-[rgba(138,158,150,0.15)] text-text-primary hover:border-[rgba(138,158,150,0.3)] hover:bg-surface-2 px-8 py-4 transition-colors duration-200"
+          className="inline-flex items-center justify-center gap-2 rounded-[12px] font-body font-semibold text-[13px] border border-accent/15 text-text-primary hover:border-accent/30 hover:bg-surface-2 px-8 py-4 transition-colors duration-200"
         >
           Nous contacter
         </Link>
       </div>
 
-      {/* Warranty note */}
-      <div className="flex items-start gap-3 p-4 rounded-[12px] bg-surface-1 border border-[rgba(138,158,150,0.06)]">
-        <ShieldCheck size={20} weight="fill" className="text-accent mt-0.5 flex-shrink-0" />
+      <div className="flex items-start gap-3 p-4 rounded-[12px] bg-surface-1 border border-accent/[0.06]">
+        <ShieldCheckIcon size={20} weight="fill" className="text-accent mt-0.5 flex-shrink-0" />
         <p className="text-[13px] text-text-secondary leading-relaxed">
-          Tous nos produits sont garantis <strong className="text-text-primary">24 mois</strong>.
-          Chaque appareil est rigoureusement testé et reconditionné par nos experts.
+          Tous nos produits sont garantis
+          {product.warranty_months && (
+            <strong className="text-text-primary"> {product.warranty_months} mois</strong>
+          )}
+          . Chaque appareil est rigoureusement testé et reconditionné par nos experts.
         </p>
       </div>
     </div>

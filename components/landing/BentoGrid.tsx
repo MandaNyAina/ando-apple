@@ -22,7 +22,7 @@ function BentoCard({ cat, className = "" }: { cat: BentoItem; className?: string
   return (
     <Link href={cat.href} className={className}>
       <motion.div
-        className="relative w-full h-full min-h-[220px] rounded-[16px] bg-surface-1 border border-[rgba(138,158,150,0.06)] overflow-hidden group"
+        className="relative w-full h-full min-h-[220px] rounded-[16px] bg-surface-1 border border-accent/[0.06] overflow-hidden group"
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
       >
@@ -50,15 +50,6 @@ function BentoCard({ cat, className = "" }: { cat: BentoItem; className?: string
   );
 }
 
-/**
- * Builds rows from items following a repeating bento pattern:
- *
- * Row pattern cycles through groups:
- * - Group of 4: 1 big (spans 2 rows) + 1 wide (spans 2 cols) + 2 small
- * - Remaining 3: 1 big (spans 2 rows) + 2 small
- * - Remaining 2: 2 equal side by side
- * - Remaining 1: full width
- */
 function renderBentoLayout(items: BentoItem[]) {
   if (items.length === 0) return null;
 
@@ -90,7 +81,6 @@ function renderBentoLayout(items: BentoItem[]) {
     );
   }
 
-  // 4+ items: process in chunks
   const rows: React.ReactNode[] = [];
   let i = 0;
   let groupIndex = 0;
@@ -99,7 +89,6 @@ function renderBentoLayout(items: BentoItem[]) {
     const remaining = items.length - i;
 
     if (remaining >= 4) {
-      // Group of 4: big left (2 rows) + wide top-right (2 cols) + 2 small bottom
       rows.push(
         <div
           key={`group-${groupIndex}`}
@@ -113,7 +102,6 @@ function renderBentoLayout(items: BentoItem[]) {
       );
       i += 4;
     } else if (remaining === 3) {
-      // 3 remaining: big left + 2 small right
       rows.push(
         <div
           key={`group-${groupIndex}`}
@@ -126,7 +114,6 @@ function renderBentoLayout(items: BentoItem[]) {
       );
       i += 3;
     } else if (remaining === 2) {
-      // 2 remaining: side by side
       rows.push(
         <div key={`group-${groupIndex}`} className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <BentoCard cat={items[i]} />
@@ -135,7 +122,6 @@ function renderBentoLayout(items: BentoItem[]) {
       );
       i += 2;
     } else {
-      // 1 remaining: full width
       rows.push(
         <div key={`group-${groupIndex}`} className="grid grid-cols-1 gap-4">
           <BentoCard cat={items[i]} />

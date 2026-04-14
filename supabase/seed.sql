@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS products (
   specs jsonb DEFAULT '{}',
   images text[] DEFAULT '{}',
   featured boolean DEFAULT false,
+  warranty_months integer,
   in_stock boolean DEFAULT true,
   sort_order integer DEFAULT 0,
   created_at timestamptz DEFAULT now(),
