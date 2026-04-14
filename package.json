@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:seed": "node supabase/run-sql.mjs seed.sql",
+    "db:reset": "node supabase/run-sql.mjs reset.sql seed.sql"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
