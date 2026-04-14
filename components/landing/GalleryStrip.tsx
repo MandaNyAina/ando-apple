@@ -22,7 +22,7 @@ export function GalleryStrip({ items }: GalleryStripProps) {
           const imageEl = (
             <div
               key={i}
-              className="relative w-[300px] md:w-[400px] aspect-[3/2] rounded-[14px] overflow-hidden shrink-0 mx-3"
+              className="relative w-[240px] md:w-[380px] aspect-[3/2] rounded-[12px] md:rounded-[14px] overflow-hidden shrink-0 mx-2 md:mx-3"
             >
               <img
                 src={item.image}

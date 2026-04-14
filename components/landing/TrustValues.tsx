@@ -27,7 +27,7 @@ export function TrustValues({ content }: TrustValuesProps) {
           </h2>
         </ScrollReveal>
 
-        <div className="flex flex-col gap-24">
+        <div className="flex flex-col gap-16 md:gap-24">
           {content.items.map((item, i) => {
             const Icon = getPhosphorIcon(item.icon);
             const isReversed = i % 2 !== 0;
@@ -40,7 +40,7 @@ export function TrustValues({ content }: TrustValuesProps) {
                 >
                   {/* Text side */}
                   <div className="flex-1 flex flex-col gap-4">
-                    <span className="font-headline text-6xl md:text-8xl font-extrabold text-surface-3">
+                    <span className="font-headline text-5xl md:text-8xl font-extrabold text-surface-3">
                       {number}
                     </span>
                     <div className="flex items-center gap-3">

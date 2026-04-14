@@ -33,7 +33,7 @@ export function Hero({ content, featuredProduct }: HeroProps) {
         </div>
       )}
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center pt-28 pb-16 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-12 w-full grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 lg:gap-20 items-center pt-24 md:pt-28 pb-12 md:pb-16 relative z-10">
         {/* Left — Text */}
         <motion.div
           className="flex flex-col gap-6"
@@ -65,7 +65,7 @@ export function Hero({ content, featuredProduct }: HeroProps) {
 
         {/* Right — Showcase card */}
         <motion.div
-          className="relative w-full max-w-[380px] mx-auto lg:mx-0"
+          className="relative w-full max-w-[300px] lg:max-w-[380px] mx-auto lg:mx-0"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.2 }}
