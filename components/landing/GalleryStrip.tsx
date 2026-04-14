@@ -17,7 +17,7 @@ export function GalleryStrip({ items }: GalleryStripProps) {
   const duplicated = [...validItems, ...validItems];
 
   return (
-    <section className="py-12 overflow-hidden">
+    <section className="py-12 overflow-hidden group-gallery">
       <div className="flex animate-gallery">
         {duplicated.map((item, i) => {
           const pass = i < validItems.length ? "a" : "b";

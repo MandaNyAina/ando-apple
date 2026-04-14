@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { MagnifyingGlass, List, X } from "@phosphor-icons/react";
 import Image from "next/image";
@@ -13,8 +14,12 @@ interface NavProps {
 }
 
 export function Nav({ logoUrl, categories }: NavProps) {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -23,7 +28,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
   }, []);
 
   useEffect(() => {
-    if (mobileOpen) {
+    if (mobileOpen || searchOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -31,21 +36,37 @@ export function Nav({ logoUrl, categories }: NavProps) {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileOpen]);
+  }, [mobileOpen, searchOpen]);
+
+  useEffect(() => {
+    if (searchOpen) {
+      searchInputRef.current?.focus();
+    }
+  }, [searchOpen]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape" && mobileOpen) {
-        setMobileOpen(false);
+      if (e.key === "Escape") {
+        if (searchOpen) setSearchOpen(false);
+        else if (mobileOpen) setMobileOpen(false);
       }
     },
-    [mobileOpen],
+    [mobileOpen, searchOpen],
   );
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (!q) return;
+    setSearchOpen(false);
+    setSearchQuery("");
+    router.push(`/products?search=${encodeURIComponent(q)}`);
+  };
 
   const navLinks = [
     { href: "/products", label: "Produits" },
@@ -92,7 +113,11 @@ export function Nav({ logoUrl, categories }: NavProps) {
           <div className="flex items-center gap-1">
             <button
               aria-label="Rechercher"
-              className="p-2 rounded-[10px] text-text-muted hover:bg-surface-3 hover:text-text-primary transition-all duration-200 hidden md:flex"
+              onClick={() => {
+                setSearchOpen(true);
+                setMobileOpen(false);
+              }}
+              className="p-2 rounded-[10px] text-text-muted hover:bg-surface-3 hover:text-text-primary transition-all duration-200"
             >
               <MagnifyingGlass size={20} />
             </button>
@@ -110,6 +135,53 @@ export function Nav({ logoUrl, categories }: NavProps) {
           </div>
         </div>
       </motion.nav>
+
+      {/* Search overlay */}
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Recherche"
+            className="fixed inset-0 z-50 flex items-start justify-center bg-surface-0/95 backdrop-blur-xl pt-28 px-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setSearchOpen(false);
+            }}
+          >
+            <div className="w-full max-w-[600px]">
+              <form onSubmit={handleSearch} className="relative">
+                <MagnifyingGlass
+                  size={22}
+                  className="absolute left-5 top-1/2 -translate-y-1/2 text-text-muted"
+                />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Rechercher un produit..."
+                  className="w-full rounded-[14px] border border-[rgba(138,158,150,0.12)] bg-surface-1 pl-14 pr-12 py-4 text-lg text-text-primary placeholder:text-text-muted focus:border-accent/30 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  aria-label="Fermer la recherche"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg text-text-muted hover:text-text-primary transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </form>
+              <p className="mt-4 text-center text-sm text-text-muted">
+                Appuyez sur Entrer pour rechercher
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Mobile menu overlay */}
       <AnimatePresence>

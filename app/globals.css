@@ -81,8 +81,8 @@
   }
 }
 
-/* Pause animations on hover for accessibility */
-.animate-marquee:hover,
-.animate-gallery:hover {
+/* Pause animations on hover — target parent container so child hover bubbles up */
+.group-marquee:hover .animate-marquee,
+.group-gallery:hover .animate-gallery {
   animation-play-state: paused;
 }
