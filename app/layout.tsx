@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   title: "ASE TECH — Apple Reconditionné Premium",
   description:
     "Appareils Apple reconditionnés avec soin. Qualité premium, prix accessible. Garantie 24 mois.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

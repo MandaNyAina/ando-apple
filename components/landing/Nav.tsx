@@ -89,7 +89,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
         <div className="max-w-[1400px] mx-auto px-4 md:px-12 py-3 flex justify-between items-center">
           <Link href="/" className="flex items-center" onClick={() => setMobileOpen(false)}>
             <Image
-              src={logoUrl || "/logo.jpg"}
+              src={logoUrl || "/logo.png"}
               alt="ASE TECH"
               width={120}
               height={32}

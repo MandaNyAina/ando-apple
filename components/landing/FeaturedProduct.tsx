@@ -27,11 +27,14 @@ export function FeaturedProduct({ content, product }: FeaturedProductProps) {
           </h2>
           <p className="text-text-secondary text-base md:text-lg max-w-lg">{content.subtitle}</p>
 
-          <div className="relative w-full max-w-2xl aspect-[4/3] rounded-[20px] bg-surface-1 border border-accent/[0.06] overflow-hidden mt-4">
+          <Link
+            href={`/products/${product.slug}`}
+            className="relative block w-full max-w-2xl aspect-[4/3] rounded-[20px] bg-surface-1 border border-accent/[0.06] overflow-hidden mt-4 hover:border-accent/20 transition-colors"
+          >
             {product.images[0] && (
               <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
             )}
-          </div>
+          </Link>
 
           <span className="font-body text-3xl md:text-4xl font-bold text-accent-light">
             {formatPrice(product.price)} Ar
