@@ -91,9 +91,9 @@ export function Nav({ logoUrl, categories }: NavProps) {
             <Image
               src={logoUrl || "/logo.png"}
               alt="ASE TECH"
-              width={120}
-              height={32}
-              className="h-7 md:h-8 w-auto brightness-0 invert"
+              width={160}
+              height={44}
+              className="h-10 md:h-11 w-auto brightness-0 invert"
             />
           </Link>
 
@@ -102,7 +102,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-body font-medium text-[13px] text-text-muted hover:text-text-primary transition-colors duration-200"
+                className="font-body font-medium text-sm text-text-secondary hover:text-text-primary transition-colors duration-200"
               >
                 {link.label}
               </Link>
