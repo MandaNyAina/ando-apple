@@ -93,7 +93,7 @@ export function Nav({ logoUrl, categories }: NavProps) {
               alt="ASE TECH"
               width={160}
               height={44}
-              className="h-10 md:h-11 w-auto brightness-0 invert"
+              className="h-9 md:h-10 w-auto brightness-0 invert"
             />
           </Link>
 
