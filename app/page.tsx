@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { getLogoUrl, getVisibleCategories } from "@/lib/data";
+import { getLogoUrl, getVisibleCategories, getWhatsappNumber } from "@/lib/data";
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
 import { Marquee } from "@/components/landing/Marquee";
@@ -17,6 +17,7 @@ import type {
   TestimonialsContent,
   CTAContent,
   GalleryContent,
+  MarqueeContent,
   Product,
 } from "@/lib/types";
 
@@ -123,11 +124,12 @@ async function getFeaturedProducts(supabase: Awaited<ReturnType<typeof createCli
 export default async function Home() {
   const supabase = await createClient();
 
-  const [contentMap, featuredProducts, logoUrl, categories] = await Promise.all([
+  const [contentMap, featuredProducts, logoUrl, categories, whatsappNumber] = await Promise.all([
     getSiteContent(supabase),
     getFeaturedProducts(supabase),
     getLogoUrl(),
     getVisibleCategories(),
+    getWhatsappNumber(),
   ]);
 
   const heroContent = (contentMap.get("hero") as unknown as HeroContent) ?? DEFAULT_HERO;
@@ -138,6 +140,7 @@ export default async function Home() {
   const testimonialsContent =
     (contentMap.get("testimonials") as unknown as TestimonialsContent) ?? DEFAULT_TESTIMONIALS;
   const ctaContent = (contentMap.get("cta") as unknown as CTAContent) ?? DEFAULT_CTA;
+  const marqueeContent = contentMap.get("marquee") as unknown as MarqueeContent | undefined;
 
   let heroProduct: Product | null = null;
   if (heroContent.hero_product_id) {
@@ -196,9 +199,9 @@ export default async function Home() {
 
   return (
     <main className="bg-surface-0 text-text-primary">
-      <Nav logoUrl={logoUrl} categories={categories} />
+      <Nav logoUrl={logoUrl} whatsappNumber={whatsappNumber} />
       <Hero content={heroContent} featuredProduct={heroProduct} />
-      <Marquee />
+      <Marquee items={marqueeContent?.items} />
       {secondFeaturedProduct && (
         <FeaturedProduct content={featuredProductContent} product={secondFeaturedProduct} />
       )}

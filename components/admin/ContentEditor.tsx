@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { PlusIcon, TrashIcon, FloppyDiskIcon } from "@phosphor-icons/react";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { IconPicker } from "@/components/admin/IconPicker";
 import { updateSiteContent } from "@/lib/actions/content";
 import type {
   HeroContent,
@@ -12,6 +13,7 @@ import type {
   CTAContent,
   GalleryContent,
   GalleryItem,
+  MarqueeContent,
   Product,
   TestimonialItem,
   ValueItem,
@@ -24,6 +26,7 @@ interface ContentEditorProps {
   testimonials: TestimonialsContent;
   cta: CTAContent;
   gallery: GalleryContent;
+  marquee: MarqueeContent;
   products: Product[];
 }
 
@@ -34,6 +37,7 @@ export function ContentEditor({
   testimonials: initialTestimonials,
   cta: initialCta,
   gallery: initialGallery,
+  marquee: initialMarquee,
   products,
 }: ContentEditorProps) {
   const [hero, setHero] = useState<HeroContent>(initialHero);
@@ -42,72 +46,138 @@ export function ContentEditor({
   const [testimonials, setTestimonials] = useState<TestimonialsContent>(initialTestimonials);
   const [cta, setCta] = useState<CTAContent>(initialCta);
   const [gallery, setGallery] = useState<GalleryContent>(initialGallery);
+  const [marquee, setMarquee] = useState<MarqueeContent>(initialMarquee);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  const newId = () =>
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const [valueKeys, setValueKeys] = useState<string[]>(() => initialValues.items.map(newId));
+  const [marqueeKeys, setMarqueeKeys] = useState<string[]>(() => initialMarquee.items.map(newId));
+  const [testimonialKeys, setTestimonialKeys] = useState<string[]>(() =>
+    initialTestimonials.items.map(newId),
+  );
+  const [galleryKeys, setGalleryKeys] = useState<string[]>(() => initialGallery.items.map(newId));
 
   const handleSave = async () => {
     setSaving(true);
     setSaved(false);
-    try {
-      await Promise.all([
-        updateSiteContent("hero", hero as unknown as Record<string, unknown>),
-        updateSiteContent(
-          "featured_product",
-          featuredProduct as unknown as Record<string, unknown>,
-        ),
-        updateSiteContent("values", values as unknown as Record<string, unknown>),
-        updateSiteContent("testimonials", testimonials as unknown as Record<string, unknown>),
-        updateSiteContent("cta", cta as unknown as Record<string, unknown>),
-        updateSiteContent("gallery", gallery as unknown as Record<string, unknown>),
-      ]);
+    setSaveError(null);
+    const sections: { name: string; payload: Record<string, unknown> }[] = [
+      { name: "hero", payload: hero as unknown as Record<string, unknown> },
+      {
+        name: "featured_product",
+        payload: featuredProduct as unknown as Record<string, unknown>,
+      },
+      { name: "values", payload: values as unknown as Record<string, unknown> },
+      { name: "testimonials", payload: testimonials as unknown as Record<string, unknown> },
+      { name: "cta", payload: cta as unknown as Record<string, unknown> },
+      { name: "gallery", payload: gallery as unknown as Record<string, unknown> },
+      { name: "marquee", payload: marquee as unknown as Record<string, unknown> },
+    ];
+
+    const results = await Promise.allSettled(
+      sections.map((s) => updateSiteContent(s.name, s.payload)),
+    );
+    const failed = results
+      .map((r, i) => ({ result: r, name: sections[i].name }))
+      .filter((x) => x.result.status === "rejected")
+      .map((x) => x.name);
+
+    if (failed.length === 0) {
       setSaved(true);
-    } catch {
-      alert("Erreur lors de la sauvegarde");
-    } finally {
-      setSaving(false);
+    } else {
+      setSaveError(`Échec de la sauvegarde pour : ${failed.join(", ")}`);
     }
+    setSaving(false);
   };
 
   const updateValue = (index: number, field: keyof ValueItem, val: string) => {
-    const updated = [...values.items];
-    updated[index] = { ...updated[index], [field]: val };
-    setValues({ items: updated });
+    setValues((prev) => {
+      const updated = [...prev.items];
+      updated[index] = { ...updated[index], [field]: val };
+      return { items: updated };
+    });
+  };
+
+  const addValue = () => {
+    setValues((prev) => ({
+      items: [
+        ...prev.items,
+        { title: "", description: "", icon: "ShieldCheck", image: "" },
+      ],
+    }));
+    setValueKeys((prev) => [...prev, newId()]);
+  };
+
+  const removeValue = (index: number) => {
+    setValues((prev) => ({ items: prev.items.filter((_, i) => i !== index) }));
+    setValueKeys((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const addMarqueeItem = () => {
+    setMarquee((prev) => ({ items: [...prev.items, ""] }));
+    setMarqueeKeys((prev) => [...prev, newId()]);
+  };
+
+  const removeMarqueeItem = (index: number) => {
+    setMarquee((prev) => ({ items: prev.items.filter((_, i) => i !== index) }));
+    setMarqueeKeys((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const updateMarqueeItem = (index: number, val: string) => {
+    setMarquee((prev) => {
+      const updated = [...prev.items];
+      updated[index] = val;
+      return { items: updated };
+    });
   };
 
   const addTestimonial = () => {
-    setTestimonials({
-      items: [...testimonials.items, { name: "", role: "", rating: 5, comment: "" }],
-    });
+    setTestimonials((prev) => ({
+      items: [...prev.items, { name: "", role: "", rating: 5, comment: "" }],
+    }));
+    setTestimonialKeys((prev) => [...prev, newId()]);
   };
 
   const removeTestimonial = (index: number) => {
-    setTestimonials({
-      items: testimonials.items.filter((_, i) => i !== index),
-    });
+    setTestimonials((prev) => ({
+      items: prev.items.filter((_, i) => i !== index),
+    }));
+    setTestimonialKeys((prev) => prev.filter((_, i) => i !== index));
   };
 
   const updateTestimonial = (index: number, field: keyof TestimonialItem, val: string | number) => {
-    const updated = [...testimonials.items];
-    updated[index] = { ...updated[index], [field]: val };
-    setTestimonials({ items: updated });
+    setTestimonials((prev) => {
+      const updated = [...prev.items];
+      updated[index] = { ...updated[index], [field]: val };
+      return { items: updated };
+    });
   };
 
   const addGalleryItem = () => {
-    setGallery({
-      items: [...gallery.items, { image: "", product_id: "" }],
-    });
+    setGallery((prev) => ({
+      items: [...prev.items, { image: "", product_id: "" }],
+    }));
+    setGalleryKeys((prev) => [...prev, newId()]);
   };
 
   const removeGalleryItem = (index: number) => {
-    setGallery({
-      items: gallery.items.filter((_, i) => i !== index),
-    });
+    setGallery((prev) => ({
+      items: prev.items.filter((_, i) => i !== index),
+    }));
+    setGalleryKeys((prev) => prev.filter((_, i) => i !== index));
   };
 
   const updateGalleryItem = (index: number, field: keyof GalleryItem, val: string) => {
-    const updated = [...gallery.items];
-    updated[index] = { ...updated[index], [field]: val };
-    setGallery({ items: updated });
+    setGallery((prev) => {
+      const updated = [...prev.items];
+      updated[index] = { ...updated[index], [field]: val };
+      return { items: updated };
+    });
   };
 
   const inputClass =
@@ -120,6 +190,18 @@ export function ContentEditor({
       <div className={cardClass}>
         <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Hero</h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="md:col-span-2">
+            <label className={labelClass}>Badge (au-dessus du titre)</label>
+            <input
+              className={inputClass}
+              placeholder="Reconditionné premium"
+              value={hero.badge ?? ""}
+              onChange={(e) => setHero({ ...hero, badge: e.target.value })}
+            />
+            <p className="mt-1 text-xs text-text-muted">
+              Laisser vide pour masquer le badge.
+            </p>
+          </div>
           <div>
             <label className={labelClass}>Titre</label>
             <input
@@ -231,26 +313,41 @@ export function ContentEditor({
       </div>
 
       <div className={cardClass}>
-        <h2 className="font-headline text-lg font-bold text-surface-0 mb-6">Nos valeurs</h2>
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="font-headline text-lg font-bold text-surface-0">Nos services</h2>
+          <button
+            type="button"
+            onClick={addValue}
+            className="inline-flex items-center gap-2 rounded-lg bg-admin-success px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-admin-success/90"
+          >
+            <PlusIcon size={16} weight="bold" />
+            Ajouter un service
+          </button>
+        </div>
         <div className="space-y-6">
-          {values.items.slice(0, 3).map((item, index) => (
-            <div key={index} className="rounded-lg border border-admin-border bg-admin-bg p-4">
-              <p className="mb-3 text-sm font-semibold text-text-muted">Valeur {index + 1}</p>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {values.items.map((item, index) => (
+            <div
+              key={valueKeys[index] ?? `value-${index}`}
+              className="rounded-lg border border-admin-border bg-admin-bg p-4"
+            >
+              <div className="mb-3 flex items-center justify-between">
+                <p className="text-sm font-semibold text-text-muted">Service {index + 1}</p>
+                <button
+                  type="button"
+                  onClick={() => removeValue(index)}
+                  aria-label={`Supprimer le service ${index + 1}`}
+                  className="rounded-lg p-1.5 text-admin-warning transition-colors hover:bg-admin-warning/10"
+                >
+                  <TrashIcon size={18} weight="bold" />
+                </button>
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className={labelClass}>Titre</label>
                   <input
                     className={inputClass}
                     value={item.title}
                     onChange={(e) => updateValue(index, "title", e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className={labelClass}>Icone</label>
-                  <input
-                    className={inputClass}
-                    value={item.icon}
-                    onChange={(e) => updateValue(index, "icon", e.target.value)}
                   />
                 </div>
                 <div>
@@ -261,9 +358,79 @@ export function ContentEditor({
                     onChange={(e) => updateValue(index, "description", e.target.value)}
                   />
                 </div>
+                <div>
+                  <label className={labelClass}>Icône</label>
+                  <IconPicker
+                    value={item.icon}
+                    onChange={(name) => updateValue(index, "icon", name)}
+                  />
+                  <p className="mt-1 text-xs text-text-muted">
+                    Utilisée si aucune image n&apos;est fournie ci-dessous.
+                  </p>
+                </div>
+                <div>
+                  <label className={labelClass}>Image (remplace l&apos;icône)</label>
+                  <ImageUploader
+                    images={item.image ? [item.image] : []}
+                    onChange={(imgs) => updateValue(index, "image", imgs[0] || "")}
+                    bucket="site-assets"
+                  />
+                </div>
               </div>
             </div>
           ))}
+          {values.items.length === 0 && (
+            <p className="py-8 text-center text-sm text-text-muted">
+              Aucun service. Cliquez sur &quot;Ajouter un service&quot; pour commencer.
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className={cardClass}>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h2 className="font-headline text-lg font-bold text-surface-0">Barre déroulante</h2>
+            <p className="text-xs text-text-muted">
+              Texte qui défile sous le hero. Ajoutez ou retirez des éléments librement.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={addMarqueeItem}
+            className="inline-flex items-center gap-2 rounded-lg bg-admin-success px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-admin-success/90"
+          >
+            <PlusIcon size={16} weight="bold" />
+            Ajouter
+          </button>
+        </div>
+        <div className="space-y-3">
+          {marquee.items.map((item, index) => (
+            <div
+              key={marqueeKeys[index] ?? `marquee-${index}`}
+              className="flex items-center gap-3 rounded-lg border border-admin-border bg-admin-bg p-3"
+            >
+              <input
+                className={inputClass}
+                value={item}
+                placeholder="Garantie 24 mois"
+                onChange={(e) => updateMarqueeItem(index, e.target.value)}
+              />
+              <button
+                type="button"
+                onClick={() => removeMarqueeItem(index)}
+                aria-label={`Supprimer l'élément ${index + 1}`}
+                className="rounded-lg p-1.5 text-admin-warning transition-colors hover:bg-admin-warning/10"
+              >
+                <TrashIcon size={18} weight="bold" />
+              </button>
+            </div>
+          ))}
+          {marquee.items.length === 0 && (
+            <p className="py-8 text-center text-sm text-text-muted">
+              Aucun élément. Cliquez sur &quot;Ajouter&quot; pour commencer.
+            </p>
+          )}
         </div>
       </div>
 
@@ -281,7 +448,10 @@ export function ContentEditor({
         </div>
         <div className="space-y-4">
           {testimonials.items.map((item, index) => (
-            <div key={index} className="rounded-lg border border-admin-border bg-admin-bg p-4">
+            <div
+              key={testimonialKeys[index] ?? `testimonial-${index}`}
+              className="rounded-lg border border-admin-border bg-admin-bg p-4"
+            >
               <div className="mb-3 flex items-center justify-between">
                 <p className="text-sm font-semibold text-text-muted">Témoignage {index + 1}</p>
                 <button
@@ -355,7 +525,10 @@ export function ContentEditor({
         </div>
         <div className="space-y-4">
           {gallery.items.map((item, index) => (
-            <div key={index} className="rounded-lg border border-admin-border bg-admin-bg p-4">
+            <div
+              key={galleryKeys[index] ?? `gallery-${index}`}
+              className="rounded-lg border border-admin-border bg-admin-bg p-4"
+            >
               <div className="mb-3 flex items-center justify-between">
                 <p className="text-sm font-semibold text-text-muted">Image {index + 1}</p>
                 <button
@@ -443,6 +616,9 @@ export function ContentEditor({
         </button>
         {saved && (
           <span className="text-sm font-medium text-admin-success">Sauvegardé avec succès !</span>
+        )}
+        {saveError && (
+          <span className="text-sm font-medium text-admin-warning">{saveError}</span>
         )}
       </div>
     </div>

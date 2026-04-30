@@ -32,7 +32,13 @@ export function FeaturedProduct({ content, product }: FeaturedProductProps) {
             className="relative block w-full max-w-2xl aspect-[4/3] rounded-[20px] bg-surface-1 border border-accent/[0.06] overflow-hidden mt-4 hover:border-accent/20 transition-colors"
           >
             {product.images[0] && (
-              <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
+              <Image
+                src={product.images[0]}
+                alt={product.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 672px"
+                className="object-cover"
+              />
             )}
           </Link>
 

@@ -1,4 +1,4 @@
-const TRUST_POINTS = [
+const DEFAULT_TRUST_POINTS = [
   "Garantie 24 mois",
   "Inspection 90 points",
   "Livraison express",
@@ -9,8 +9,15 @@ const TRUST_POINTS = [
   "Paiement sécurisé",
 ];
 
-export function Marquee() {
-  const items = [...TRUST_POINTS, ...TRUST_POINTS];
+interface MarqueeProps {
+  items?: string[];
+}
+
+export function Marquee({ items: source }: MarqueeProps = {}) {
+  const base = source ?? DEFAULT_TRUST_POINTS;
+  const points = base.filter((s) => s.trim().length > 0);
+  if (points.length === 0) return null;
+  const items = [...points, ...points];
 
   return (
     <section className="py-6 border-y border-accent/[0.06] overflow-hidden bg-surface-1 group-marquee">

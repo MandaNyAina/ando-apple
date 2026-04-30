@@ -1,24 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import {
-  ShieldCheckIcon,
-  TagIcon,
-  StarIcon,
-  HeadsetIcon,
-  MagnifyingGlassIcon,
-  CurrencyCircleDollarIcon,
-  RecycleIcon,
-  CertificateIcon,
-  HeartIcon,
-  LightningIcon,
-  CheckCircleIcon,
-  HandshakeIcon,
-  TrophyIcon,
-  LeafIcon,
-  LockIcon,
-  type Icon as PhosphorIcon,
-} from "@phosphor-icons/react";
+import { StarIcon } from "@phosphor-icons/react";
+import { ADMIN_ICON_MAP } from "@/components/admin/IconPicker";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import type { ValuesContent } from "@/lib/types";
 
@@ -26,26 +10,9 @@ interface TrustValuesProps {
   content: ValuesContent;
 }
 
-const ICON_MAP: Record<string, PhosphorIcon> = {
-  ShieldCheckIcon,
-  TagIcon,
-  StarIcon,
-  HeadsetIcon,
-  MagnifyingGlassIcon,
-  CurrencyCircleDollarIcon,
-  RecycleIcon,
-  CertificateIcon,
-  HeartIcon,
-  LightningIcon,
-  CheckCircleIcon,
-  HandshakeIcon,
-  TrophyIcon,
-  LeafIcon,
-  LockIcon,
-};
-
-function getPhosphorIcon(iconName: string): PhosphorIcon {
-  return ICON_MAP[iconName] ?? StarIcon;
+function getPhosphorIcon(iconName: string) {
+  const key = iconName.replace(/Icon$/, "");
+  return ADMIN_ICON_MAP[key] ?? StarIcon;
 }
 
 export function TrustValues({ content }: TrustValuesProps) {
@@ -56,7 +23,7 @@ export function TrustValues({ content }: TrustValuesProps) {
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <ScrollReveal>
           <h2 className="font-headline text-3xl md:text-4xl font-extrabold tracking-tight mb-16 text-center">
-            Pourquoi nous choisir
+            Nos services
           </h2>
         </ScrollReveal>
 
@@ -89,7 +56,13 @@ export function TrustValues({ content }: TrustValuesProps) {
                   <div className="flex-1 w-full">
                     <div className="relative aspect-[4/3] rounded-[16px] bg-surface-1 border border-accent/[0.06] overflow-hidden">
                       {item.image ? (
-                        <Image src={item.image} alt={item.title} fill className="object-cover" />
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover"
+                        />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Icon size={64} weight="thin" className="text-surface-3" />

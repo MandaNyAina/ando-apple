@@ -1,10 +1,5 @@
 import { ShieldCheckIcon } from "@phosphor-icons/react/dist/ssr";
-
-const CONDITION_LABELS: Record<string, string> = {
-  pristine: "Grade A+ — Pristine",
-  excellent: "Grade A — Excellent",
-  good: "Grade B — Bon état",
-};
+import { CONDITION_LABELS } from "@/lib/utils";
 
 interface BadgeProps {
   condition: string;

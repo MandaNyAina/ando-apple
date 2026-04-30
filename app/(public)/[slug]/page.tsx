@@ -1,6 +1,6 @@
 import sanitizeHtml from "sanitize-html";
 import { createClient } from "@/lib/supabase/server";
-import { getLogoUrl, getVisibleCategories } from "@/lib/data";
+import { getLogoUrl, getWhatsappNumber } from "@/lib/data";
 import { Nav } from "@/components/landing/Nav";
 import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/Button";
@@ -34,10 +34,10 @@ export default async function DynamicPage({ params }: PageProps) {
   const { slug } = await params;
   const supabase = await createClient();
 
-  const [{ data: page }, logoUrl, categories] = await Promise.all([
+  const [{ data: page }, logoUrl, whatsappNumber] = await Promise.all([
     supabase.from("pages").select("*").eq("slug", slug).eq("published", true).single(),
     getLogoUrl(),
-    getVisibleCategories(),
+    getWhatsappNumber(),
   ]);
 
   if (!page) notFound();
@@ -72,7 +72,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
   return (
     <main className="bg-surface-0 text-text-primary min-h-[100dvh]">
-      <Nav logoUrl={logoUrl} categories={categories} />
+      <Nav logoUrl={logoUrl} whatsappNumber={whatsappNumber} />
       <div className="max-w-[800px] mx-auto px-6 md:px-12 pt-28 pb-20">
         <h1 className="font-headline text-3xl md:text-4xl font-extrabold tracking-[-1.5px] mb-8">
           {page.title}

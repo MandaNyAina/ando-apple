@@ -7,6 +7,7 @@ import type {
   TestimonialsContent,
   CTAContent,
   GalleryContent,
+  MarqueeContent,
 } from "@/lib/types";
 
 const defaultHero: HeroContent = {
@@ -16,6 +17,7 @@ const defaultHero: HeroContent = {
   cta_secondary: "En savoir plus",
   background_image: "",
   hero_product_id: "",
+  badge: "Reconditionné premium",
 };
 
 const defaultFeaturedProduct: FeaturedProductContent = {
@@ -47,6 +49,19 @@ const defaultCta: CTAContent = {
   button_text: "Nous contacter",
 };
 
+const defaultMarquee: MarqueeContent = {
+  items: [
+    "Garantie 24 mois",
+    "Inspection 90 points",
+    "Livraison express",
+    "Satisfait ou remboursé",
+    "Batterie certifiée",
+    "Économie circulaire",
+    "Support technique dédié",
+    "Paiement sécurisé",
+  ],
+};
+
 export default async function AdminContentPage() {
   const supabase = await createClient();
 
@@ -67,6 +82,7 @@ export default async function AdminContentPage() {
   const testimonials = getSection<TestimonialsContent>("testimonials", defaultTestimonials);
   const cta = getSection<CTAContent>("cta", defaultCta);
   const gallery = getSection<GalleryContent>("gallery", { items: [] });
+  const marquee = getSection<MarqueeContent>("marquee", defaultMarquee);
 
   return (
     <div>
@@ -83,6 +99,7 @@ export default async function AdminContentPage() {
           testimonials={testimonials}
           cta={cta}
           gallery={gallery}
+          marquee={marquee}
           products={products ?? []}
         />
       </div>

@@ -35,6 +35,11 @@ export interface HeroContent {
   cta_secondary: string;
   background_image: string;
   hero_product_id: string;
+  badge?: string;
+}
+
+export interface MarqueeContent {
+  items: string[];
 }
 
 export interface FeaturedProductContent {

@@ -17,6 +17,7 @@ export function Hero({ content, featuredProduct }: HeroProps) {
   const titleParts = content.title.split(".");
   const titleMain = titleParts[0] + ".";
   const titleAccent = titleParts[1] ?? "";
+  const badgeText = (content.badge ?? "Reconditionné premium").trim();
 
   return (
     <section className="relative min-h-[100dvh] flex items-center overflow-hidden">
@@ -26,9 +27,11 @@ export function Hero({ content, featuredProduct }: HeroProps) {
             src={content.background_image}
             alt=""
             fill
-            className="object-cover opacity-20"
+            sizes="100vw"
+            className="object-cover opacity-60"
+            priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-surface-0/80 via-surface-0/60 to-surface-0" />
+          <div className="absolute inset-0 bg-gradient-to-b from-surface-0/40 via-surface-0/30 to-surface-0/80" />
         </div>
       ) : (
         <div className="absolute inset-0 pointer-events-none">
@@ -45,9 +48,11 @@ export function Hero({ content, featuredProduct }: HeroProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 24 }}
         >
-          <span className="inline-block w-fit px-3 py-1.5 rounded-[8px] bg-accent/10 border border-accent/[0.08] text-[11px] font-semibold text-accent-light uppercase tracking-widest">
-            Reconditionné premium
-          </span>
+          {badgeText && (
+            <span className="inline-block w-fit px-3 py-1.5 rounded-[8px] bg-accent/10 border border-accent/[0.08] text-[11px] font-semibold text-accent-light uppercase tracking-widest">
+              {badgeText}
+            </span>
+          )}
           <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
             {titleMain}
             {titleAccent && <span className="text-accent">{titleAccent}</span>}
@@ -80,6 +85,7 @@ export function Hero({ content, featuredProduct }: HeroProps) {
                       src={featuredProduct.images[0]}
                       alt={featuredProduct.name}
                       fill
+                      sizes="(max-width: 1024px) 300px, 380px"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                       priority
                     />

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { getLogoUrl, getVisibleCategories } from "@/lib/data";
+import { getLogoUrl, getVisibleCategories, getWhatsappNumber } from "@/lib/data";
 import { Nav } from "@/components/landing/Nav";
 import { Footer } from "@/components/landing/Footer";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -51,17 +51,18 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     query = query.ilike("name", `%${sanitized}%`);
   }
 
-  const [{ data }, logoUrl, visibleCategories] = await Promise.all([
+  const [{ data }, logoUrl, visibleCategories, whatsappNumber] = await Promise.all([
     query,
     getLogoUrl(),
     getVisibleCategories(),
+    getWhatsappNumber(),
   ]);
 
   const products = (data as Product[]) ?? [];
 
   return (
     <main className="bg-surface-0 text-text-primary min-h-screen">
-      <Nav logoUrl={logoUrl} categories={visibleCategories} />
+      <Nav logoUrl={logoUrl} whatsappNumber={whatsappNumber} />
 
       <section className="pt-28 pb-20 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto space-y-8">

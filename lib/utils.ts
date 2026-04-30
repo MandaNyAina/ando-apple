@@ -14,7 +14,9 @@ export function formatPrice(price: number, currency?: string): string {
     style: "decimal",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(price);
+  })
+    .format(price)
+    .replace(/[\u202f\u00a0]/g, " ");
   return currency !== undefined ? `${formatted} ${currency}` : formatted;
 }
 
@@ -29,7 +31,7 @@ export function calculateSavings(
 }
 
 export const CONDITION_LABELS: Record<string, string> = {
-  pristine: "Grade A+ — Pristine",
-  excellent: "Grade A — Excellent",
-  good: "Grade B — Bon état",
+  pristine: "Neuf",
+  excellent: "Occasion — Excellent état",
+  good: "Occasion — Bon état",
 };

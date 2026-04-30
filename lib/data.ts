@@ -19,6 +19,11 @@ export async function getLogoUrl(): Promise<string> {
   return settings.logo_url || "";
 }
 
+export async function getWhatsappNumber(): Promise<string> {
+  const settings = await getSiteSettings();
+  return settings.whatsapp_number || "";
+}
+
 export async function getCategories(): Promise<Category[]> {
   const supabase = await createClient();
   const { data } = await supabase
