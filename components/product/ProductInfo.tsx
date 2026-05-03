@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { formatPrice, calculateSavings } from "@/lib/utils";
-import { ShieldCheckIcon, WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Product } from "@/lib/types";
 
 interface ProductInfoProps {
@@ -100,16 +100,6 @@ export function ProductInfo({ product, whatsappNumber }: ProductInfoProps) {
         </Link>
       </div>
 
-      <div className="flex items-start gap-3 p-4 rounded-[12px] bg-surface-1 border border-accent/[0.06]">
-        <ShieldCheckIcon size={20} weight="fill" className="text-accent mt-0.5 flex-shrink-0" />
-        <p className="text-[13px] text-text-secondary leading-relaxed">
-          Tous nos produits sont garantis
-          {product.warranty_months && (
-            <strong className="text-text-primary"> {product.warranty_months} mois</strong>
-          )}
-          . Chaque appareil est rigoureusement testé et reconditionné par nos experts.
-        </p>
-      </div>
     </div>
   );
 }
